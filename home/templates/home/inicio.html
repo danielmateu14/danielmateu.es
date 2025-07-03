@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Daniel Mateu Sánchez - Desarrollador Web Full Stack Junior{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/inicio.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="inicio" class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="hero-content animate-on-scroll">
+                    <h1 class="hero-title">
+                        Hola, soy <span class="text-primary">Daniel Mateu Sánchez</span>
+                    </h1>
+                    <h2 class="hero-subtitle">Desarrollador Web Full Stack Junior</h2>
+                    <p class="hero-description">
+                        Apasionado por crear experiencias web innovadoras y funcionales. 
+                        Especializado en JavaScript, Django y Django REST Framework, 
+                        con un enfoque en el desarrollo responsivo usando Bootstrap.
+                    </p>
+                    <div class="hero-technologies">
+                        <span class="tech-badge">JavaScript</span>
+                        <span class="tech-badge">Django</span>
+                        <span class="tech-badge">Django REST</span>
+                        <span class="tech-badge">Bootstrap</span>
+                        <span class="tech-badge">Python</span>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#proyectos" class="btn btn-primary me-3">
+                            <i class="fas fa-rocket me-2"></i>Ver Proyectos
+                        </a>
+                        <a href="#contacto" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-2"></i>Contactar
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <div class="hero-image animate-on-scroll">
+                    <div class="image-container">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                            <p class="mt-3">Tu foto aquí</p>
+                            <small class="text-muted">Arrastra una imagen o haz click para subir</small>
+                        </div>
+                        <!-- Decorative elements -->
+                        <div class="floating-icon icon-1">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div class="floating-icon icon-2">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="floating-icon icon-3">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="floating-icon icon-4">
+                            <i class="fab fa-bootstrap"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <a href="#sobre-mi">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Sobre mí Section -->
+<section id="sobre-mi" class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title animate-on-scroll">Sobre mí</h2>
+                <p class="section-subtitle animate-on-scroll">
+                    Conoce más sobre mi trayectoria y pasión por el desarrollo web
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 animate-on-scroll">
+                <div class="about-content">
+                    <h3 class="mb-4">Mi historia</h3>
+                    <p>
+                        Como desarrollador web junior, me especializo en crear soluciones 
+                        digitales que combinan funcionalidad y diseño atractivo. Mi experiencia 
+                        se centra en el desarrollo full stack con tecnologías modernas.
+                    </p>
+                    <p>
+                        Disfruto enfrentando nuevos desafíos y aprendiendo constantemente 
+                        sobre las últimas tendencias en desarrollo web. Mi objetivo es 
+                        crear aplicaciones que no solo funcionen perfectamente, sino que 
+                        también brinden una excelente experiencia al usuario.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 animate-on-scroll">
+                <div class="skills-section">
+                    <h3 class="mb-4">Tecnologías que manejo</h3>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>JavaScript</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>Django</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>Django REST Framework</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>Bootstrap</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="95"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Proyectos Preview Section -->
+<section id="proyectos" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title animate-on-scroll">Mis Proyectos</h2>
+                <p class="section-subtitle animate-on-scroll">
+                    Algunos de los proyectos en los que he trabajado
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4 animate-on-scroll">
+                <div class="project-card card h-100">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-code"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Proyecto 1</h5>
+                        <p class="card-text">
+                            Descripción del proyecto desarrollado con Django y Bootstrap.
+                        </p>
+                        <div class="project-tech">
+                            <span class="badge bg-primary me-1">Django</span>
+                            <span class="badge bg-secondary me-1">JavaScript</span>
+                            <span class="badge bg-success">Bootstrap</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4 animate-on-scroll">
+                <div class="project-card card h-100">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Proyecto 2</h5>
+                        <p class="card-text">
+                            API REST desarrollada con Django REST Framework.
+                        </p>
+                        <div class="project-tech">
+                            <span class="badge bg-primary me-1">Django REST</span>
+                            <span class="badge bg-secondary me-1">Python</span>
+                            <span class="badge bg-info">API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4 animate-on-scroll">
+                <div class="project-card card h-100">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Proyecto 3</h5>
+                        <p class="card-text">
+                            Aplicación web responsiva con interfaz moderna.
+                        </p>
+                        <div class="project-tech">
+                            <span class="badge bg-primary me-1">JavaScript</span>
+                            <span class="badge bg-secondary me-1">HTML5</span>
+                            <span class="badge bg-success">CSS3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-outline-primary">
+                <i class="fas fa-plus me-2"></i>Ver todos los proyectos
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Contacto Section -->
+<section id="contacto" class="section-padding bg-dark text-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title text-light animate-on-scroll">¡Trabajemos juntos!</h2>
+                <p class="section-subtitle animate-on-scroll">
+                    ¿Tienes un proyecto en mente? Me encantaría ayudarte a hacerlo realidad
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="contact-info animate-on-scroll">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope fa-2x mb-3 text-primary"></i>
+                                <h5>Email</h5>
+                                <p>daniel@ejemplo.com</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="contact-item">
+                                <i class="fab fa-linkedin fa-2x mb-3 text-primary"></i>
+                                <h5>LinkedIn</h5>
+                                <p>/in/daniel-mateu</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="contact-item">
+                                <i class="fab fa-github fa-2x mb-3 text-primary"></i>
+                                <h5>GitHub</h5>
+                                <p>/daniel-mateu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'home/js/inicio.js' %}"></script>
+{% endblock %}
