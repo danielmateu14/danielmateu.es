@@ -16,14 +16,16 @@
             <div class="col-lg-6 order-2 order-lg-1">
                 <div class="hero-content animate-on-scroll">
                     <h1 class="hero-title">
-                        Hola, soy <span class="text-primary">Daniel Mateu Sánchez</span>
+                        Hola, soy <span style="color: #06b6d4;">Daniel Mateu Sánchez</span>
                     </h1>
                     <h2 class="hero-subtitle">Desarrollador Web Full Stack Junior</h2>
                     <p class="hero-description">
-                        Apasionado por crear experiencias web innovadoras y funcionales. 
-                        Especializado en JavaScript, Django y Django REST Framework, 
-                        con un enfoque en el desarrollo responsivo usando Bootstrap.
+                        Apasionado por construir soluciones digitales modernas y eficientes. Especializado en
+                        <strong>Django</strong>, <strong>Django REST Framework</strong> y <strong>JavaScript</strong>,
+                        con un enfoque en diseño responsivo mediante <strong>Bootstrap</strong>. Comprometido con la
+                        calidad del código, el aprendizaje continuo y la creación de experiencias web impactantes.
                     </p>
+
                     <div class="hero-technologies">
                         <span class="tech-badge">JavaScript</span>
                         <span class="tech-badge">Django</span>
@@ -32,10 +34,10 @@
                         <span class="tech-badge">Python</span>
                     </div>
                     <div class="hero-buttons">
-                        <a href="#proyectos" class="btn btn-primary me-3">
+                        <a href="#proyectos" class="btn btn-custom-primary me-3">
                             <i class="fas fa-rocket me-2"></i>Ver Proyectos
                         </a>
-                        <a href="#contacto" class="btn btn-outline-primary">
+                        <a href="#contacto" class="btn btn-custom-secondary">
                             <i class="fas fa-envelope me-2"></i>Contactar
                         </a>
                     </div>
@@ -44,11 +46,9 @@
             <div class="col-lg-6 order-1 order-lg-2">
                 <div class="hero-image animate-on-scroll">
                     <div class="image-container">
-                        <div class="image-placeholder">
-                            <i class="fas fa-user-circle"></i>
-                            <p class="mt-3">Tu foto aquí</p>
-                            <small class="text-muted">Arrastra una imagen o haz click para subir</small>
-                        </div>
+                        <img src="{% static 'imagenes/foto_perfil.jpeg' %}" alt="Daniel Mateu Sánchez"
+                            class="img-fluid rounded shadow-lg" style="max-width: 400px; width: 100%;">
+
                         <!-- Decorative elements -->
                         <div class="floating-icon icon-1">
                             <i class="fab fa-js-square"></i>
@@ -75,71 +75,93 @@
     </div>
 </section>
 
-<!-- Sobre mí Section -->
+<!-- Sobre mí y Experiencia Section -->
 <section id="sobre-mi" class="section-padding bg-light">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
+            <div class="col-lg-8 mx-auto text-center mb-5">
                 <h2 class="section-title animate-on-scroll">Sobre mí</h2>
-                <p class="section-subtitle animate-on-scroll">
-                    Conoce más sobre mi trayectoria y pasión por el desarrollo web
-                </p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-6 animate-on-scroll">
-                <div class="about-content">
-                    <h3 class="mb-4">Mi historia</h3>
-                    <p>
-                        Como desarrollador web junior, me especializo en crear soluciones 
-                        digitales que combinan funcionalidad y diseño atractivo. Mi experiencia 
-                        se centra en el desarrollo full stack con tecnologías modernas.
+
+        <!-- Información personal y foto -->
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-12 mb-4 mb-lg-0">
+                <div class="about-content animate-on-scroll">
+                    <h3 class="mb-4 text-center">Mi historia</h3>
+                    <p class="lead mb-4">
+                        Soy Daniel Mateu Sánchez, desarrollador web formado en Desarrollo de Aplicaciones Web (DAW),
+                        donde adquirí una base sólida en lenguajes como PHP, Java y JavaScript, así como en tecnologías
+                        esenciales como HTML5 y CSS3.
                     </p>
-                    <p>
-                        Disfruto enfrentando nuevos desafíos y aprendiendo constantemente 
-                        sobre las últimas tendencias en desarrollo web. Mi objetivo es 
-                        crear aplicaciones que no solo funcionen perfectamente, sino que 
-                        también brinden una excelente experiencia al usuario.
+                    <p class="mb-4">
+                        Actualmente trabajo en <strong>Redarquía Digital</strong>, donde desarrollo soluciones digitales
+                        utilizando <strong>Django</strong>, <strong>Django REST Framework</strong> y
+                        <strong>Bootstrap</strong>, aplicando metodologías ágiles y buenas prácticas de desarrollo. Mi
+                        enfoque se centra en crear aplicaciones web limpias, escalables y orientadas a la experiencia de
+                        usuario.
                     </p>
+                    <p class="mb-4">
+                        Me apasiona aprender constantemente y mantenerme al día con las últimas tecnologías del sector,
+                        disfrutando cada nuevo reto como una oportunidad de crecimiento profesional.
+                    </p>
+
+
+                    <!-- Tecnologías principales -->
+                    <div class="tech-stack">
+                        <h5 class="mb-3">Tecnologías principales:</h5>
+                        <div class="tech-badges">
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">JavaScript</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Python</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Django</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Django REST</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Bootstrap</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Java</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">PostgreSQL</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">SQLite</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Git</span>
+                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Fork</span>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6 animate-on-scroll">
-                <div class="skills-section">
-                    <h3 class="mb-4">Tecnologías que manejo</h3>
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>JavaScript</span>
-                            <span>85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Django</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="90"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Django REST Framework</span>
-                            <span>80%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="80"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Bootstrap</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95"></div>
+
+        </div>
+
+        <!-- Experiencia profesional -->
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h3 class="text-center mb-5 animate-on-scroll">Mi Experiencia Profesional</h3>
+
+                <!-- Timeline de experiencia -->
+                <div class="timeline animate-on-scroll">
+                    <!-- Experiencia Actual -->
+                    <div class="timeline-content">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title mb-0">Desarrollador Full Stack Junior</h5>
+                                    <span class="badge" style="background-color: #8b5cf6;">2025 - Presente</span>
+                                </div>
+                                <h6 class="text-muted mb-3">Redarquía Digital</h6>
+                                <p class="card-text">
+                                    Participación activa en el desarrollo de plataformas web utilizando
+                                    <strong>Django</strong> como tecnología principal. Diseño e implementación de
+                                    <strong>APIs RESTful</strong> con <strong>Django REST Framework</strong>, y
+                                    desarrollo de interfaces adaptativas mediante <strong>Bootstrap</strong>. Gestión de
+                                    bases de datos relacionales con <strong>PostgreSQL</strong> y control de versiones
+                                    en entornos colaborativos mediante <strong>Git</strong>. Trabajo en equipo siguiendo
+                                    metodologías ágiles y enfoque en buenas prácticas de desarrollo.
+                                </p>
+                                <div class="experience-tech">
+                                    <small class="text-muted">
+                                        <strong>Tecnologías:</strong> Django, Django REST Framework, JavaScript,
+                                        Bootstrap, PostgreSQL, Git
+                                    </small>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -168,14 +190,15 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Proyecto 1</h5>
+                        <h5 class="card-title">Proyecto Web Django</h5>
                         <p class="card-text">
-                            Descripción del proyecto desarrollado con Django y Bootstrap.
+                            Aplicación web completa desarrollada con Django y Bootstrap,
+                            incluyendo sistema de usuarios y panel administrativo.
                         </p>
                         <div class="project-tech">
-                            <span class="badge bg-primary me-1">Django</span>
-                            <span class="badge bg-secondary me-1">JavaScript</span>
-                            <span class="badge bg-success">Bootstrap</span>
+                            <span class="badge me-1" style="background-color: #8b5cf6;">Django</span>
+                            <span class="badge me-1" style="background-color: #64748b;">JavaScript</span>
+                            <span class="badge" style="background-color: #10b981;">Bootstrap</span>
                         </div>
                     </div>
                 </div>
@@ -188,14 +211,15 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Proyecto 2</h5>
+                        <h5 class="card-title">API REST</h5>
                         <p class="card-text">
-                            API REST desarrollada con Django REST Framework.
+                            API RESTful robusta desarrollada con Django REST Framework,
+                            con autenticación y documentación automática.
                         </p>
                         <div class="project-tech">
-                            <span class="badge bg-primary me-1">Django REST</span>
-                            <span class="badge bg-secondary me-1">Python</span>
-                            <span class="badge bg-info">API</span>
+                            <span class="badge me-1" style="background-color: #8b5cf6;">Django REST</span>
+                            <span class="badge me-1" style="background-color: #64748b;">Python</span>
+                            <span class="badge" style="background-color: #06b6d4;">API</span>
                         </div>
                     </div>
                 </div>
@@ -208,14 +232,15 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Proyecto 3</h5>
+                        <h5 class="card-title">Interfaz Responsiva</h5>
                         <p class="card-text">
-                            Aplicación web responsiva con interfaz moderna.
+                            Aplicación web moderna con interfaz completamente responsiva
+                            y experiencia de usuario optimizada.
                         </p>
                         <div class="project-tech">
-                            <span class="badge bg-primary me-1">JavaScript</span>
-                            <span class="badge bg-secondary me-1">HTML5</span>
-                            <span class="badge bg-success">CSS3</span>
+                            <span class="badge me-1" style="background-color: #8b5cf6;">JavaScript</span>
+                            <span class="badge me-1" style="background-color: #64748b;">HTML5</span>
+                            <span class="badge" style="background-color: #10b981;">CSS3</span>
                         </div>
                     </div>
                 </div>
@@ -230,12 +255,12 @@
 </section>
 
 <!-- Contacto Section -->
-<section id="contacto" class="section-padding bg-dark text-light">
+<section id="contacto" class="section-padding">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
                 <h2 class="section-title text-light animate-on-scroll">¡Trabajemos juntos!</h2>
-                <p class="section-subtitle animate-on-scroll">
+                <p class="section-subtitle text-light animate-on-scroll">
                     ¿Tienes un proyecto en mente? Me encantaría ayudarte a hacerlo realidad
                 </p>
             </div>
@@ -246,23 +271,26 @@
                     <div class="row">
                         <div class="col-md-4 text-center mb-4">
                             <div class="contact-item">
-                                <i class="fas fa-envelope fa-2x mb-3 text-primary"></i>
-                                <h5>Email</h5>
-                                <p>daniel@ejemplo.com</p>
+                                <a href="mailto:mateudani97@gmail.com" class="contact-link">
+                                    <i class="fas fa-envelope fa-2x mb-3" style="color: #8b5cf6;"></i>
+                                    <h5>Email</h5>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-4 text-center mb-4">
                             <div class="contact-item">
-                                <i class="fab fa-linkedin fa-2x mb-3 text-primary"></i>
-                                <h5>LinkedIn</h5>
-                                <p>/in/daniel-mateu</p>
+                                <a href="https://www.linkedin.com/in/danimateu14/" target="_blank" class="contact-link">
+                                    <i class="fab fa-linkedin fa-2x mb-3" style="color: #8b5cf6;"></i>
+                                    <h5>LinkedIn</h5>
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-4 text-center mb-4">
                             <div class="contact-item">
-                                <i class="fab fa-github fa-2x mb-3 text-primary"></i>
-                                <h5>GitHub</h5>
-                                <p>/daniel-mateu</p>
+                                <a href="https://github.com/danielmateu14" target="_blank" class="contact-link">
+                                    <i class="fab fa-github fa-2x mb-3" style="color: #8b5cf6;"></i>
+                                    <h5>GitHub</h5>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -1,66 +1,34 @@
-// JavaScript específico para la página de inicio
+// Página de inicio
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Animaciones de las barras de habilidades
-    const skillBars = document.querySelectorAll('.skill-progress');
-    
-    const animateSkillBars = () => {
-        skillBars.forEach(bar => {
-            const width = bar.getAttribute('data-width');
-            setTimeout(() => {
-                bar.style.width = width + '%';
-            }, Math.random() * 500 + 200);
-        });
-    };
-    
-    // Observador para animar las barras cuando entren en vista
-    const skillsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateSkillBars();
-                skillsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    const skillsSection = document.querySelector('.skills-section');
-    if (skillsSection) {
-        skillsObserver.observe(skillsSection);
-    }
     
     // Efecto de escritura para el título principal
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
-        const originalText = heroTitle.innerHTML;
-        const nameSpan = heroTitle.querySelector('.text-primary');
+        const originalText = 'Hola, soy <span style="color: #06b6d4;">Daniel Mateu Sánchez</span>';
+        const nameText = "Daniel Mateu Sánchez";
+        const beforeName = "Hola, soy ";
         
-        if (nameSpan) {
-            const nameText = nameSpan.textContent;
-            const beforeName = "Hola, soy ";
+        // Función para crear efecto de typing
+        function typeText() {
+            heroTitle.innerHTML = beforeName + '<span style="color: #06b6d4;" class="typing-cursor"></span>';
             
-            // Función para crear efecto de typing
-            function typeText() {
-                heroTitle.innerHTML = beforeName + '<span class="text-primary typing-cursor"></span>';
-                
-                let i = 0;
-                const typeInterval = setInterval(() => {
-                    if (i < nameText.length) {
-                        const currentText = beforeName + '<span class="text-primary">' + nameText.substring(0, i + 1) + '<span class="typing-cursor">|</span></span>';
-                        heroTitle.innerHTML = currentText;
-                        i++;
-                    } else {
-                        clearInterval(typeInterval);
-                        // Eliminar cursor después de 2 segundos
-                        setTimeout(() => {
-                            heroTitle.innerHTML = originalText;
-                        }, 2000);
-                    }
-                }, 100);
-            }
-            
-            // Iniciar el efecto después de 1 segundo
-            setTimeout(typeText, 1000);
+            let i = 0;
+            const typeInterval = setInterval(() => {
+                if (i < nameText.length) {
+                    const currentText = beforeName + '<span style="color: #06b6d4;">' + nameText.substring(0, i + 1) + '<span class="typing-cursor">|</span></span>';
+                    heroTitle.innerHTML = currentText;
+                    i++;
+                } else {
+                    clearInterval(typeInterval);
+                    setTimeout(() => {
+                        heroTitle.innerHTML = originalText;
+                    }, 2000);
+                }
+            }, 100);
         }
+        
+        // Iniciar el efecto después de 1 segundo
+        setTimeout(typeText, 1000);
     }
     
     // Smooth scroll mejorado para botones
@@ -89,36 +57,62 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroSection = document.querySelector('.hero-section');
         
         if (heroSection && scrolled <= window.innerHeight) {
-            const rate = scrolled * -0.5;
+            const rate = scrolled * -0.3; // Reducido para un efecto más sutil
             heroSection.style.transform = `translateY(${rate}px)`;
         }
     });
     
-    // Animación de las tecnologías
+    // Animación de las tecnologías en el hero
     const techBadges = document.querySelectorAll('.tech-badge');
     techBadges.forEach((badge, index) => {
         badge.style.animationDelay = `${index * 0.1}s`;
         badge.classList.add('animate-fadeInUp');
     });
     
-    // Contador animado para proyectos (ejemplo)
-    const animateCounter = (element, start, end, duration) => {
-        const startTime = performance.now();
-        
-        const animate = (currentTime) => {
-            const elapsedTime = currentTime - startTime;
-            const progress = Math.min(elapsedTime / duration, 1);
-            const current = Math.floor(progress * (end - start) + start);
-            
-            element.textContent = current;
-            
-            if (progress < 1) {
-                requestAnimationFrame(animate);
+    // Animación para los badges de tecnologías en la sección sobre mí
+    const aboutTechBadges = document.querySelectorAll('.tech-badges .badge');
+    
+    // Observador para animar los badges cuando entren en vista
+    const badgeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const badges = entry.target.querySelectorAll('.badge');
+                badges.forEach((badge, index) => {
+                    badge.style.opacity = '0';
+                    badge.style.transform = 'translateY(20px)';
+                    badge.style.transition = `all 0.4s ease ${index * 0.1}s`;
+                    
+                    setTimeout(() => {
+                        badge.style.opacity = '1';
+                        badge.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+                badgeObserver.unobserve(entry.target);
             }
-        };
-        
-        requestAnimationFrame(animate);
-    };
+        });
+    }, { threshold: 0.5 });
+    
+    const techStackSection = document.querySelector('.tech-stack');
+    if (techStackSection) {
+        badgeObserver.observe(techStackSection);
+    }
+
+    
+    const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateX(0)';
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    timelineItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-30px)';
+        item.style.transition = `all 0.6s ease ${index * 0.2}s`;
+        timelineObserver.observe(item);
+    });
     
     // Efecto hover en las tarjetas de proyecto
     const projectCards = document.querySelectorAll('.project-card');
@@ -132,153 +126,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Funcionalidad para subir foto de perfil
-    const imageContainer = document.querySelector('.image-container');
-    if (imageContainer) {
-        imageContainer.addEventListener('click', function() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            
-            input.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        imageContainer.innerHTML = `
-                            <img src="${event.target.result}" 
-                                 alt="Daniel Mateu Sánchez" 
-                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                        `;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            input.click();
-        });
-        
-        // Drag and drop para la imagen
-        imageContainer.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'rgba(255, 255, 255, 0.6)';
-            this.style.background = 'rgba(255, 255, 255, 0.2)';
-        });
-        
-        imageContainer.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            this.style.background = 'rgba(255, 255, 255, 0.1)';
-        });
-        
-        imageContainer.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            this.style.background = 'rgba(255, 255, 255, 0.1)';
-            
-            const files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    imageContainer.innerHTML = `
-                        <img src="${event.target.result}" 
-                             alt="Daniel Mateu Sánchez" 
-                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                    `;
-                };
-                reader.readAsDataURL(files[0]);
-            }
-        });
-    }
+    // Efecto de aparición suave para elementos al hacer scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
     
-    // Partículas de fondo (opcional)
-    function createParticles() {
-        const heroSection = document.querySelector('.hero-section');
-        if (!heroSection) return;
-        
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.cssText = `
-                position: absolute;
-                width: 4px;
-                height: 4px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                pointer-events: none;
-                animation: floatParticle ${Math.random() * 10 + 10}s linear infinite;
-                left: ${Math.random() * 100}%;
-                animation-delay: ${Math.random() * 10}s;
-            `;
-            heroSection.appendChild(particle);
-        }
-    }
-    
-    // Agregar animación CSS para partículas
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .typing-cursor {
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Crear partículas
-    createParticles();
-    
-    // Tooltip personalizado para tecnologías
-    techBadges.forEach(badge => {
-        badge.addEventListener('mouseenter', function() {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'custom-tooltip';
-            tooltip.textContent = `Experiencia con ${this.textContent}`;
-            tooltip.style.cssText = `
-                position: absolute;
-                background: rgba(0, 0, 0, 0.8);
-                color: white;
-                padding: 8px 12px;
-                border-radius: 6px;
-                font-size: 12px;
-                white-space: nowrap;
-                z-index: 1000;
-                pointer-events: none;
-                transform: translateX(-50%);
-                margin-top: -40px;
-                left: 50%;
-            `;
-            this.style.position = 'relative';
-            this.appendChild(tooltip);
-        });
-        
-        badge.addEventListener('mouseleave', function() {
-            const tooltip = this.querySelector('.custom-tooltip');
-            if (tooltip) {
-                tooltip.remove();
+    const fadeInObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
             }
         });
+    }, observerOptions);
+    
+    // Aplicar animación a elementos con clase animate-on-scroll
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        fadeInObserver.observe(el);
     });
     
-    console.log('🎉 Página de inicio de Daniel Mateu cargada correctamente');
+    // Efecto de carga inicial para el hero
+    setTimeout(() => {
+        const heroContent = document.querySelector('.hero-content');
+        const heroImage = document.querySelector('.hero-image');
+        
+        if (heroContent) {
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'translateY(0)';
+        }
+        
+        if (heroImage) {
+            heroImage.style.opacity = '1';
+            heroImage.style.transform = 'translateY(0)';
+        }
+    }, 300);
 });
