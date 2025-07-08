@@ -4,9 +4,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-j-9%@-u(7xrgux$b&98=zr4d4ol40*rp2(g*8$up$hqw$=$2(i'
 
-DEBUG = True
+ALLOWED_HOSTS = ['danielmateu.onrender.com', 'danielmateu.es']
+DEBUG = False
 
-ALLOWED_HOSTS = []
 
 # Aplicaciones propias
 APPS_PROPIAS = [
