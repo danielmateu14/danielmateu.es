@@ -12,6 +12,9 @@
     --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
     --border-radius: 12px;
     --transition: all 0.3s ease;
+    
+    /* Variable para altura del navbar - se actualizará dinámicamente */
+    --navbar-height: 76px;
 }
 
 /* Reset y base */
@@ -26,16 +29,20 @@ body {
     line-height: 1.6;
     color: var(--dark-color);
     background-color: #ffffff;
+    /* Usar la variable para el padding-top del body */
+    padding-top: var(--navbar-height);
 }
 
-/* SIN padding-top para que no haya separación entre navbar y main */
-
-/* Navbar personalizado con más transparencia */
+/* Navbar personalizado con altura fija usando variable */
 .navbar {
     background-color: rgba(33, 37, 41, 0.7) !important;
     backdrop-filter: blur(15px);
     transition: var(--transition);
     padding: 1rem 0;
+    /* Altura mínima usando la variable */
+    min-height: var(--navbar-height);
+    display: flex;
+    align-items: center;
 }
 
 /* Navbar con más transparencia al hacer scroll */
@@ -57,6 +64,10 @@ body {
 }
 
 @media (max-width: 768px) {
+    :root {
+        --navbar-height: 66px;
+    }
+    
     .navbar-toggler {
         margin: 0 auto;
     }
@@ -340,6 +351,7 @@ footer {
 /* Scroll suave */
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-height);
 }
 
 /* Responsive */
