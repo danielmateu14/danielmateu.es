@@ -1,13 +1,12 @@
-/* Hero Section - SIN margin-top negativo porque el body ya tiene padding-top */
+/* Hero Section */
 .hero-section {
     position: relative;
     background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
     color: white;
     overflow: hidden;
-    /* ELIMINADOS: margin-top: -76px; y padding-top: 76px; */
-    /* El espaciado lo maneja automáticamente el padding-top del body */
-    padding-top: 2rem; /* Solo padding decorativo adicional */
-    min-height: 100vh; /* Para que ocupe toda la pantalla */
+    padding-top: 100px; 
+    padding-bottom: 4rem;
+    min-height: 100vh;
     display: flex;
     align-items: center;
 }
@@ -439,7 +438,9 @@
     transition: all 0.3s ease;
 }
 
-/* Responsive Design */
+/* RESPONSIVE DESIGN */
+
+/* Tablet y desktop pequeño */
 @media (max-width: 992px) {
     .hero-title {
         font-size: 2.5rem;
@@ -471,34 +472,40 @@
     }
 }
 
+/* MÓVIL */
 @media (max-width: 768px) {
     .hero-section {
-        /* ELIMINADO: margin-top: -66px; */
-        /* ELIMINADO: padding-top: 66px; */
-        padding-top: 1rem; /* Solo padding decorativo */
-        min-height: 100vh;
+        padding-top: 120px; /* Más espacio para el navbar en móvil */
+        padding-bottom: 5rem;
     }
 
     .hero-title {
         font-size: 2rem;
         text-align: center;
+        margin-bottom: 1.5rem;
     }
 
     .hero-subtitle {
         font-size: 1.3rem;
         text-align: center;
+        margin-bottom: 2rem;
     }
 
     .hero-description {
         text-align: center;
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
     }
 
     .hero-technologies {
         justify-content: center;
+        margin-bottom: 3rem;
     }
 
     .hero-buttons {
         justify-content: center;
+        margin-bottom: 3rem;
+        gap: 20px;
     }
 
     .image-container {
@@ -513,7 +520,7 @@
     }
 
     .floating-icon {
-        display: none;
+        display: none; /* Ocultar en móvil para simplificar */
     }
 
     .timeline {
@@ -528,34 +535,67 @@
         font-size: 0.8rem;
         margin-bottom: 0.5rem;
     }
+    
+    /* Reorganizar contenido en móvil */
+    .hero-section .row {
+        flex-direction: column;
+    }
+    
+    .hero-section .col-lg-6.order-1.order-lg-2 {
+        order: 1; /* Imagen primero */
+        margin-bottom: 2rem;
+    }
+    
+    .hero-section .col-lg-6.order-2.order-lg-1 {
+        order: 2; /* Contenido después */
+    }
 }
 
+/* MÓVILES PEQUEÑOS */
 @media (max-width: 576px) {
+    .hero-section {
+        padding-top: 140px; /* Aún más espacio en móviles pequeños */
+        padding-bottom: 6rem;
+        min-height: 110vh;
+    }
+
     .hero-title {
         font-size: 1.8rem;
+        margin-bottom: 2rem;
     }
 
     .hero-subtitle {
         font-size: 1.1rem;
+        margin-bottom: 2.5rem;
     }
 
     .hero-description {
         font-size: 1rem;
+        margin-bottom: 3rem;
+    }
+    
+    .hero-technologies {
+        margin-bottom: 3.5rem;
     }
 
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
+        margin-bottom: 4rem;
     }
 
     .hero-buttons .btn {
         width: 100%;
-        max-width: 250px;
+        max-width: 280px;
+        padding: 15px 25px;
+        font-size: 1rem;
     }
 
     .image-container {
         width: 200px;
         height: 200px;
+        margin: 3rem auto;
     }
 
     .about-image-section {
@@ -566,13 +606,19 @@
     .tech-badge {
         font-size: 0.8rem;
         padding: 6px 12px;
+        margin-bottom: 8px;
     }
 
     .about-content {
         padding: 1.5rem;
+        margin-top: 2rem;
     }
 
     .timeline-content {
         padding-left: 0.5rem;
+    }
+    
+    .scroll-indicator {
+        bottom: 40px;
     }
 }

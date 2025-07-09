@@ -12,8 +12,6 @@
     --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
     --border-radius: 12px;
     --transition: all 0.3s ease;
-    
-    /* Variable para altura del navbar - se actualizará dinámicamente */
     --navbar-height: 76px;
 }
 
@@ -29,18 +27,16 @@ body {
     line-height: 1.6;
     color: var(--dark-color);
     background-color: #ffffff;
-    /* Usar la variable para el padding-top del body */
     padding-top: var(--navbar-height);
 }
 
-/* Navbar personalizado con altura fija usando variable */
+/* Navbar personalizado */
 .navbar {
     background-color: rgba(33, 37, 41, 0.7) !important;
     backdrop-filter: blur(15px);
     transition: var(--transition);
     padding: 1rem 0;
-    /* Altura mínima usando la variable */
-    min-height: var(--navbar-height);
+    height: var(--navbar-height);
     display: flex;
     align-items: center;
 }
@@ -61,16 +57,6 @@ body {
 /* Navbar brand oculto - solo centrar navegación */
 .navbar-brand {
     display: none;
-}
-
-@media (max-width: 768px) {
-    :root {
-        --navbar-height: 66px;
-    }
-    
-    .navbar-toggler {
-        margin: 0 auto;
-    }
 }
 
 /* Centrar el navbar - sin brand */
@@ -113,10 +99,6 @@ body {
 
 .navbar-nav .nav-link:hover::after,
 .navbar-nav .nav-link.active::after {
-    width: 80%;
-}
-
-.navbar-nav .nav-link:hover::after {
     width: 80%;
 }
 
@@ -354,8 +336,21 @@ html {
     scroll-padding-top: var(--navbar-height);
 }
 
-/* Responsive */
+/* RESPONSIVE - MÓVIL */
 @media (max-width: 768px) {
+    :root {
+        --navbar-height: 70px;
+    }
+    
+    .navbar {
+        height: 70px !important;
+        padding: 0.5rem 0 !important;
+    }
+    
+    .navbar-toggler {
+        margin: 0 auto;
+    }
+    
     .section-title {
         font-size: 2rem;
     }
@@ -387,5 +382,21 @@ html {
     .tech-badges .badge {
         font-size: 0.8rem;
         margin-bottom: 0.5rem;
+    }
+}
+
+/* MÓVILES PEQUEÑOS */
+@media (max-width: 576px) {
+    
+    .navbar {
+        height: 75px !important;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .section-padding {
+        padding: 50px 0;
     }
 }

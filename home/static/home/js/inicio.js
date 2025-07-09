@@ -51,17 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Efecto parallax en el hero
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroSection = document.querySelector('.hero-section');
-        
-        if (heroSection && scrolled <= window.innerHeight) {
-            const rate = scrolled * -0.3; // Reducido para un efecto más sutil
-            heroSection.style.transform = `translateY(${rate}px)`;
-        }
-    });
-    
     // Animación de las tecnologías en el hero
     const techBadges = document.querySelectorAll('.tech-badge');
     techBadges.forEach((badge, index) => {

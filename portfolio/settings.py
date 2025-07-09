@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-j-9%@-u(7xrgux$b&98=zr4d4ol40*rp2(g*8$up$hqw$=$2(i'
 
-ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateu-es.onrender.com']
+ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateu-es.onrender.com','127.0.0.1', 'localhost']
 DEBUG = False
 
 STATIC_URL = '/static/'
