@@ -1,9 +1,33 @@
 // Esperar a que el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Navbar scroll effect con transparencia
     const navbar = document.querySelector('.navbar');
     
+    // Función para calcular y actualizar la altura del navbar dinámicamente
+    function updateNavbarHeight() {
+        if (navbar) {
+            const navbarHeight = navbar.offsetHeight;
+            
+            // Actualizar la variable CSS custom property
+            document.documentElement.style.setProperty('--navbar-height', navbarHeight + 'px');
+            
+            // También actualizar el padding-top del body directamente
+            document.body.style.paddingTop = navbarHeight + 'px';
+            
+            console.log('🔧 Altura del navbar actualizada:', navbarHeight + 'px');
+        }
+    }
+    
+    // Actualizar altura del navbar al cargar la página
+    updateNavbarHeight();
+    
+    // Actualizar altura del navbar al redimensionar la ventana
+    window.addEventListener('resize', function() {
+        // Pequeño delay para asegurar que el navbar se haya redimensionado
+        setTimeout(updateNavbarHeight, 100);
+    });
+    
+    // Navbar scroll effect con transparencia
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             // Al hacer scroll hacia abajo - navbar con transparencia
@@ -14,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.remove('navbar-scrolled');
             navbar.classList.add('navbar-top');
         }
+        
+        // Recalcular altura después de cambios de clase (por si las transiciones afectan el tamaño)
+        setTimeout(updateNavbarHeight, 100);
     });
     
     // Inicializar navbar en la parte superior
@@ -28,14 +55,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const target = document.querySelector(this.getAttribute('href'));
             
             if (target) {
-                // Calcular offset para compensar el navbar fijo
+                // Usar la altura calculada dinámicamente del navbar
                 const navbarHeight = navbar ? navbar.offsetHeight : 76;
-                const targetPosition = target.offsetTop - navbarHeight + 10; // +10 para un poco más de espacio
+                const targetPosition = target.offsetTop - navbarHeight - 20; // +20 para más espacio
                 
                 window.scrollTo({
-                    top: targetPosition,
+                    top: Math.max(0, targetPosition), // Evitar valores negativos
                     behavior: 'smooth'
                 });
+                
+                console.log('📍 Navegando a:', this.getAttribute('href'), 'Posición:', targetPosition);
             }
         });
     });
@@ -63,8 +92,9 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
     
-    // Animación para timeline items
-    document.querySelectorAll('.timeline-item').forEach((item, index) => {
+    // Animación para timeline items (si existen)
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach((item, index) => {
         item.style.opacity = '0';
         item.style.transform = 'translateX(-30px)';
         item.style.transition = `all 0.6s ease ${index * 0.2}s`;
@@ -77,8 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
-            if (navbarCollapse.classList.contains('show')) {
+            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
                 navbarToggler.click();
+                // Actualizar altura después de cerrar el menú móvil
+                setTimeout(updateNavbarHeight, 300);
             }
         });
     });
@@ -139,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showAlert(message, type = 'success') {
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-        alertDiv.style.top = '90px';
+        alertDiv.style.top = (navbar.offsetHeight + 10) + 'px'; // Usar altura del navbar
         alertDiv.style.right = '20px';
         alertDiv.style.zIndex = '9999';
         alertDiv.innerHTML = `
@@ -200,25 +232,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Ejecutar animación de badges
+    // Ejecutar animación de badges si existen
     setTimeout(animateTechBadges, 1000);
     
-    // Efecto parallax suave para imágenes
+    // Efecto parallax suave para imágenes (si existen)
     function parallaxEffect() {
         const parallaxElements = document.querySelectorAll('.about-image img');
         
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.1;
-            
-            parallaxElements.forEach(element => {
-                element.style.transform = `translateY(${rate}px)`;
+        if (parallaxElements.length > 0) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.1;
+                
+                parallaxElements.forEach(element => {
+                    element.style.transform = `translateY(${rate}px)`;
+                });
             });
-        });
+        }
     }
     
     // Inicializar parallax
     parallaxEffect();
+    
+    // Función para debug - mostrar información del navbar
+    function debugNavbar() {
+        if (navbar) {
+            console.log('📊 Info del Navbar:');
+            console.log('  - Altura:', navbar.offsetHeight + 'px');
+            console.log('  - Padding-top del body:', getComputedStyle(document.body).paddingTop);
+            console.log('  - Variable CSS --navbar-height:', getComputedStyle(document.documentElement).getPropertyValue('--navbar-height'));
+        }
+    }
+    
+    // Ejecutar debug en consola (solo en desarrollo)
+    setTimeout(debugNavbar, 1000);
     
     // Hacer funciones disponibles globalmente
     window.DanielPortfolio = {
@@ -226,7 +273,9 @@ document.addEventListener('DOMContentLoaded', function() {
         showAlert,
         validateForm,
         showLoading,
-        updateActiveNavLink
+        updateActiveNavLink,
+        updateNavbarHeight,
+        debugNavbar
     };
     
     // Preloader (si existe)
@@ -240,5 +289,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Actualizar altura una vez más después de que todo haya cargado
+    window.addEventListener('load', function() {
+        setTimeout(updateNavbarHeight, 500);
+    });
+    
     console.log('🚀 Portfolio de Daniel Mateu Sánchez cargado correctamente');
+    console.log('💡 Usa DanielPortfolio.debugNavbar() en la consola para debug');
 });
