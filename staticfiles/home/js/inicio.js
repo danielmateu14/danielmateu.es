@@ -320,7 +320,4 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.particle, .floating-icon').forEach(element => {
         intersectionObserver.observe(element);
     });
-    
-    console.log('🚀 Portfolio de Daniel Mateu Sánchez cargado con efectos mejorados');
-    console.log('✨ Animaciones y efectos visuales activados');
 });

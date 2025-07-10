@@ -30,7 +30,7 @@ body {
     padding-top: var(--navbar-height);
 }
 
-/* Navbar personalizado mejorado */
+/* Navbar */
 .navbar {
     background-color: rgba(33, 37, 41, 0.95) !important;
     backdrop-filter: blur(15px);
@@ -333,7 +333,7 @@ body {
     animation: fadeInRight 0.8s ease forwards;
 }
 
-/* Footer sin separación */
+/* Footer */
 footer {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
     margin-top: 0 !important;
