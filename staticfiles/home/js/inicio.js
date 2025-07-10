@@ -1,5 +1,10 @@
-// Página de inicio
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // Inicializar partículas con delay aleatorio
+    const particles = document.querySelectorAll('.particle');
+    particles.forEach((particle, index) => {
+        particle.style.animationDelay = Math.random() * 20 + 's';
+    });
     
     // Efecto de escritura para el título principal
     const heroTitle = document.querySelector('.hero-title');
@@ -27,11 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100);
         }
         
-        // Iniciar el efecto después de 1 segundo
-        setTimeout(typeText, 1000);
+        setTimeout(typeText, 2000);
     }
     
-    // Smooth scroll mejorado para botones
+    // Smooth scroll para botones
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -39,22 +43,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                const headerOffset = 80;
+                const isMobile = window.innerWidth <= 768;
+                const headerOffset = isMobile ? 80 : 80;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
                 window.scrollTo({
-                    top: offsetPosition,
+                    top: Math.max(0, offsetPosition),
                     behavior: 'smooth'
                 });
             }
         });
     });
     
-    // Animación de las tecnologías en el hero
+    // Animación de las tecnologías en el hero con delay escalonado
     const techBadges = document.querySelectorAll('.tech-badge');
     techBadges.forEach((badge, index) => {
-        badge.style.animationDelay = `${index * 0.1}s`;
+        badge.style.animationDelay = `${0.8 + index * 0.1}s`;
         badge.classList.add('animate-fadeInUp');
     });
     
@@ -86,7 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
         badgeObserver.observe(techStackSection);
     }
 
-    
+    // Observador para timeline items
+    const timelineItems = document.querySelectorAll('.timeline-content');
     const timelineObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -103,15 +109,17 @@ document.addEventListener('DOMContentLoaded', function() {
         timelineObserver.observe(item);
     });
     
-    // Efecto hover en las tarjetas de proyecto
+    // Efecto hover mejorado en las tarjetas de proyecto
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-10px) scale(1.02)';
+            this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.25)';
         });
         
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
         });
     });
     
@@ -138,7 +146,31 @@ document.addEventListener('DOMContentLoaded', function() {
         fadeInObserver.observe(el);
     });
     
-    // Efecto de carga inicial para el hero
+    // Efecto parallax sutil para el hero
+    let ticking = false;
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.floating-icon');
+        
+        parallaxElements.forEach((element, index) => {
+            const speed = 0.5 + (index * 0.1);
+            const yPos = -(scrolled * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+        
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    
+    // Efecto de carga inicial mejorado para el hero
     setTimeout(() => {
         const heroContent = document.querySelector('.hero-content');
         const heroImage = document.querySelector('.hero-image');
@@ -153,4 +185,142 @@ document.addEventListener('DOMContentLoaded', function() {
             heroImage.style.transform = 'translateY(0)';
         }
     }, 300);
+    
+    // Efecto de hover en los iconos flotantes
+    const floatingIcons = document.querySelectorAll('.floating-icon');
+    floatingIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.2) rotate(15deg)';
+            this.style.background = 'rgba(255, 255, 255, 0.3)';
+        });
+        
+        icon.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotate(0deg)';
+            this.style.background = 'rgba(255, 255, 255, 0.15)';
+        });
+    });
+    
+    // Efecto de pulso en los botones del hero
+    const heroButtons = document.querySelectorAll('.btn-custom-primary, .btn-custom-secondary');
+    heroButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.animation = 'pulse 1s ease-in-out infinite';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.animation = 'none';
+        });
+    });
+    
+    // Animación de entrada escalonada para las tarjetas de contacto
+    const contactItems = document.querySelectorAll('.contact-item');
+    const contactObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 200);
+                contactObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    contactItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px)';
+        item.style.transition = 'all 0.6s ease';
+        contactObserver.observe(item);
+    });
+    
+    // Efecto de brillo en los tech badges al hacer hover
+    document.querySelectorAll('.tech-badge').forEach(badge => {
+        badge.addEventListener('mouseenter', function() {
+            this.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.5)';
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+        });
+        
+        badge.addEventListener('mouseleave', function() {
+            this.style.boxShadow = 'none';
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Efecto de ondas en los botones (ripple effect)
+    function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement('span');
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+        
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+        circle.classList.add('ripple');
+        
+        const ripple = button.getElementsByClassName('ripple')[0];
+        if (ripple) {
+            ripple.remove();
+        }
+        
+        button.appendChild(circle);
+    }
+    
+    // Aplicar efecto ripple a botones
+    heroButtons.forEach(button => {
+        button.addEventListener('click', createRipple);
+    });
+    
+    // CSS para el efecto ripple
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = `
+        .btn-custom-primary, .btn-custom-secondary {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(139, 92, 246, 0.4);
+            }
+        }
+    `;
+    document.head.appendChild(rippleStyle);
+    
+    // Mejorar rendimiento pausando animaciones cuando no están visibles
+    const intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            } else {
+                entry.target.style.animationPlayState = 'paused';
+            }
+        });
+    });
+    
+    // Observar elementos animados para optimizar rendimiento
+    document.querySelectorAll('.particle, .floating-icon').forEach(element => {
+        intersectionObserver.observe(element);
+    });
+    
+    console.log('🚀 Portfolio de Daniel Mateu Sánchez cargado con efectos mejorados');
+    console.log('✨ Animaciones y efectos visuales activados');
 });

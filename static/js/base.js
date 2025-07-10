@@ -1,4 +1,3 @@
-// Portfolio de Daniel Mateu Sánchez - JavaScript principal
 document.addEventListener('DOMContentLoaded', function() {
     
     const navbar = document.querySelector('.navbar');
@@ -34,8 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     top: Math.max(0, targetPosition),
                     behavior: 'smooth'
                 });
-                
-                console.log('📍 Navegando a:', this.getAttribute('href'));
             }
         });
     });
@@ -173,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Preloader (si existe)
+    // Preloader
     const preloader = document.querySelector('.preloader');
     if (preloader) {
         window.addEventListener('load', () => {
@@ -183,7 +180,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 500);
         });
     }
-    
-    console.log('🚀 Portfolio de Daniel Mateu Sánchez cargado correctamente');
-    console.log('💡 Funciones disponibles en DanielPortfolio:', Object.keys(window.DanielPortfolio));
 });

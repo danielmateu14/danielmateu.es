@@ -11,8 +11,21 @@
 <!-- Hero Section -->
 <section id="inicio" class="hero-section">
     <div class="hero-overlay"></div>
+    
+    <!-- Partículas animadas -->
+    <div class="hero-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
     <div class="container">
-        <!-- QUITAR min-vh-100 de aquí que causa problemas -->
         <div class="row align-items-center">
             <div class="col-lg-6 order-2 order-lg-1">
                 <div class="hero-content animate-on-scroll">
@@ -49,24 +62,17 @@
                     <div class="image-container">
                         <img src="{% static 'imagenes/foto_perfil.jpeg' %}" alt="Daniel Mateu Sánchez"
                             class="img-fluid rounded shadow-lg" style="max-width: 400px; width: 100%;">
-
-                        <!-- Decorative elements -->
-                        <div class="floating-icon icon-1">
-                            <i class="fab fa-js-square"></i>
-                        </div>
-                        <div class="floating-icon icon-2">
-                            <i class="fab fa-python"></i>
-                        </div>
-                        <div class="floating-icon icon-3">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="floating-icon icon-4">
-                            <i class="fab fa-bootstrap"></i>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <a href="#sobre-mi">
+            <i class="fas fa-chevron-down"></i>
+        </a>
     </div>
 </section>
 
@@ -131,6 +137,7 @@
 
                 <!-- Timeline de experiencia -->
                 <div class="timeline animate-on-scroll">
+
                     <!-- Experiencia Actual -->
                     <div class="timeline-content">
                         <div class="card">
