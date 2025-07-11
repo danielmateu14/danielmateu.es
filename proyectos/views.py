@@ -8,7 +8,11 @@ class ProyectoListView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        return Proyecto.objects.all().order_by('-fecha_creacion')
+        try:
+            return Proyecto.objects.all().order_by('-fecha_creacion')
+        except Exception as e:
+            # Puedes registrar el error aquí si usas logging
+            return Proyecto.objects.none()
 
 
 class ProyectoDetalleView(DetailView):
