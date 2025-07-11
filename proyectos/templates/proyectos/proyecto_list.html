@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mis Proyectos - Daniel Mateu Sánchez{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'proyectos/css/proyectos.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section para Proyectos -->
+<section class="proyectos-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="hero-title animate-on-scroll">Mis Proyectos</h1>
+                <p class="hero-subtitle animate-on-scroll">
+                    Una colección de proyectos desarrollados con Django, JavaScript y tecnologías modernas
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros de Proyectos -->
+<section class="filtros-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="filtros-container animate-on-scroll">
+                    <button class="filtro-btn active" data-filter="all">Todos</button>
+                    <button class="filtro-btn" data-filter="django">Django</button>
+                    <button class="filtro-btn" data-filter="javascript">JavaScript</button>
+                    <button class="filtro-btn" data-filter="api">APIs</button>
+                    <button class="filtro-btn" data-filter="fullstack">Full Stack</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Listado de Proyectos -->
+<section class="proyectos-grid section-padding">
+    <div class="container">
+        <div class="row">
+            {% for proyecto in proyectos %}
+            <div class="col-lg-4 col-md-6 mb-4 proyecto-item animate-on-scroll" data-category="{{ proyecto.categoria }}">
+                <div class="proyecto-card">
+                    <div class="proyecto-image">
+                        {% if proyecto.imagen %}
+                            <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" class="img-fluid">
+                        {% else %}
+                            <div class="proyecto-placeholder">
+                                <i class="fas {{ proyecto.icono|default:'fa-code' }}"></i>
+                            </div>
+                        {% endif %}
+                        <div class="proyecto-overlay">
+                            <div class="proyecto-actions">
+                                {% if proyecto.url_demo %}
+                                <a href="{{ proyecto.url_demo }}" target="_blank" class="btn btn-demo">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                                {% endif %}
+                                {% if proyecto.url_github %}
+                                <a href="{{ proyecto.url_github }}" target="_blank" class="btn btn-github">
+                                    <i class="fab fa-github"></i> Código
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="proyecto-content">
+                        <h5 class="proyecto-titulo">{{ proyecto.titulo }}</h5>
+                        <p class="proyecto-descripcion">{{ proyecto.descripcion_corta }}</p>
+                        
+                        <div class="proyecto-tech">
+                            {% for tecnologia in proyecto.tecnologias.all %}
+                            <span class="tech-badge">{{ tecnologia.nombre }}</span>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="proyecto-meta">
+                            <span class="proyecto-fecha">
+                                <i class="fas fa-calendar"></i> {{ proyecto.fecha_creacion|date:"M Y" }}
+                            </span>
+                            {% if proyecto.estado %}
+                            <span class="proyecto-estado estado-{{ proyecto.estado }}">
+                                {{ proyecto.get_estado_display }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{% url 'proyectos:detalle' proyecto.slug %}" class="btn btn-ver-mas">
+                            Ver Detalles <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="no-proyectos animate-on-scroll">
+                    <i class="fas fa-code fa-3x mb-3"></i>
+                    <h4>Próximamente...</h4>
+                    <p>Estoy trabajando en nuevos proyectos que estarán disponibles pronto.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="row mt-5">
+            <div class="col-12">
+                <nav aria-label="Paginación de proyectos" class="d-flex justify-content-center">
+                    <ul class="pagination custom-pagination">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&laquo; Primera</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action Final -->
+<section class="contact-section section-padding bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="section-title mb-5">
+                    <h2 class="fw-bold">¿Tienes un proyecto en mente?</h2>
+                    <p class="text-muted">Estoy abierto a colaborar, desarrollar ideas o crear soluciones web impactantes</p>
+                </div>
+
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                    <a href="mailto:proyectos@danielmateu.dev" class="btn btn-contact">
+                        <i class="fas fa-envelope me-2"></i>Email
+                    </a>
+                    <a href="https://www.linkedin.com/in/danimateu14/" target="_blank" class="btn btn-contact">
+                        <i class="fab fa-linkedin me-2"></i>LinkedIn
+                    </a>
+                    <a href="https://github.com/danielmateu14" target="_blank" class="btn btn-contact">
+                        <i class="fab fa-github me-2"></i>GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'proyectos/js/proyectos.js' %}"></script>
+{% endblock %}

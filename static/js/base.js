@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     const navbar = document.querySelector('.navbar');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
     
     // Navbar scroll effect con transparencia
     window.addEventListener('scroll', function() {
@@ -18,6 +20,31 @@ document.addEventListener('DOMContentLoaded', function() {
         navbar.classList.add('navbar-top');
     }
     
+    // Control del estado del menú móvil
+    if (navbarToggler && navbarCollapse) {
+        navbarToggler.addEventListener('click', function() {
+            // Detectar si el menú se va a abrir o cerrar
+            const isExpanded = navbarToggler.getAttribute('aria-expanded') === 'true';
+            
+            if (isExpanded) {
+                // El menú se va a cerrar
+                navbar.classList.remove('menu-open');
+            } else {
+                // El menú se va a abrir
+                navbar.classList.add('menu-open');
+            }
+        });
+        
+        // Detectar cuando Bootstrap termina la animación
+        navbarCollapse.addEventListener('hidden.bs.collapse', function() {
+            navbar.classList.remove('menu-open');
+        });
+        
+        navbarCollapse.addEventListener('shown.bs.collapse', function() {
+            navbar.classList.add('menu-open');
+        });
+    }
+    
     // Smooth scroll para enlaces internos
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -26,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (target) {
                 const isMobile = window.innerWidth <= 768;
-                const offset = isMobile ? 100 : 80; // Offset basado en el padding-top del body
+                const offset = isMobile ? 100 : 80;
                 const targetPosition = target.offsetTop - offset;
                 
                 window.scrollTo({
@@ -70,9 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Cerrar navbar en móvil al hacer click en un enlace
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             if (navbarCollapse && navbarCollapse.classList.contains('show')) {
@@ -95,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
             current = 'contacto';
         } else {
             sections.forEach(section => {
-                const sectionTop = section.offsetTop - 120; // Usar valor fijo
+                const sectionTop = section.offsetTop - 120;
                 const sectionHeight = section.offsetHeight;
                 
                 if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
@@ -121,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showAlert: function(message, type = 'success') {
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-            alertDiv.style.top = '110px'; // Debajo del navbar
+            alertDiv.style.top = '110px';
             alertDiv.style.right = '20px';
             alertDiv.style.zIndex = '9999';
             alertDiv.innerHTML = `
@@ -131,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.body.appendChild(alertDiv);
             
-            // Auto remove after 5 seconds
             setTimeout(() => {
                 if (alertDiv.parentNode) {
                     alertDiv.remove();

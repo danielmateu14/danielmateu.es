@@ -15,6 +15,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Aplicaciones propias
 APPS_PROPIAS = [
     'home',
+    'proyectos',
 ]
 
 INSTALLED_APPS = [
@@ -79,8 +80,8 @@ TIME_ZONE = 'Europe/Madrid'
 USE_I18N = True
 USE_TZ = True
 
-# Archivos estáticos (CSS, JS, imágenes)
+# Archivos estáticos 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # ✅ Ruta global para archivos estáticos
+STATICFILES_DIRS = [BASE_DIR / 'static'] 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
