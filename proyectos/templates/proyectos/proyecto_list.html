@@ -44,16 +44,18 @@
     <div class="container">
         <div class="row">
             {% for proyecto in proyectos %}
-            <div class="col-lg-4 col-md-6 mb-4 proyecto-item animate-on-scroll" data-category="{{ proyecto.categoria }}">
+            <div class="col-lg-4 col-md-6 mb-4 proyecto-item animate-on-scroll"
+                data-category="{{ proyecto.categoria }}">
                 <div class="proyecto-card">
                     <div class="proyecto-image">
-                        {% if proyecto.imagen %}
-                            <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" class="img-fluid">
+                        {% if proyecto.imagen and proyecto.imagen.url %}
+                        <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" class="img-fluid">
                         {% else %}
-                            <div class="proyecto-placeholder">
-                                <i class="fas {{ proyecto.icono|default:'fa-code' }}"></i>
-                            </div>
+                        <div class="proyecto-placeholder">
+                            <i class="fas {{ proyecto.icono|default:'fa-code' }}"></i>
+                        </div>
                         {% endif %}
+
                         <div class="proyecto-overlay">
                             <div class="proyecto-actions">
                                 {% if proyecto.url_demo %}
@@ -72,13 +74,13 @@
                     <div class="proyecto-content">
                         <h5 class="proyecto-titulo">{{ proyecto.titulo }}</h5>
                         <p class="proyecto-descripcion">{{ proyecto.descripcion_corta }}</p>
-                        
+
                         <div class="proyecto-tech">
                             {% for tecnologia in proyecto.tecnologias.all %}
                             <span class="tech-badge">{{ tecnologia.nombre }}</span>
                             {% endfor %}
                         </div>
-                        
+
                         <div class="proyecto-meta">
                             <span class="proyecto-fecha">
                                 <i class="fas fa-calendar"></i> {{ proyecto.fecha_creacion|date:"M Y" }}
@@ -89,7 +91,7 @@
                             </span>
                             {% endif %}
                         </div>
-                        
+
                         <a href="{% url 'proyectos:detalle' proyecto.slug %}" class="btn btn-ver-mas">
                             Ver Detalles <i class="fas fa-arrow-right ms-1"></i>
                         </a>
@@ -106,7 +108,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <!-- Paginación -->
         {% if is_paginated %}
         <div class="row mt-5">
@@ -121,27 +123,27 @@
                             <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
                         </li>
                         {% endif %}
-                        
+
                         {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
                         <li class="page-item active">
                             <span class="page-link">{{ num }}</span>
                         </li>
-                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <li class="page-item">
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li
+                            class="page-item">
                             <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                        
-                        {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
-                        </li>
-                        {% endif %}
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+                            </li>
+                            {% endif %}
                     </ul>
                 </nav>
             </div>
@@ -157,7 +159,8 @@
             <div class="col-lg-8 mx-auto text-center">
                 <div class="section-title mb-5">
                     <h2 class="fw-bold">¿Tienes un proyecto en mente?</h2>
-                    <p class="text-muted">Estoy abierto a colaborar, desarrollar ideas o crear soluciones web impactantes</p>
+                    <p class="text-muted">Estoy abierto a colaborar, desarrollar ideas o crear soluciones web
+                        impactantes</p>
                 </div>
 
                 <div class="d-flex justify-content-center flex-wrap gap-3">
