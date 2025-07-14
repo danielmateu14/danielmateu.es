@@ -26,19 +26,31 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         {% if request.path == '/' %}
-                        <a class="nav-link" href="#inicio">Inicio</a>
+                            <a class="nav-link" href="#inicio">Inicio</a>
                         {% else %}
-                        <a class="nav-link" href="{% url 'home:inicio' %}">Inicio</a>
+                            <a class="nav-link" href="{% url 'home:inicio' %}#inicio">Inicio</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#sobre-mi">Sobre mí</a>
+                        {% if request.path == '/' %}
+                            <a class="nav-link" href="#sobre-mi">Sobre mí</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'home:inicio' %}#sobre-mi">Sobre mí</a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#proyectos">Proyectos</a>
+                        {% if request.path == '/' %}
+                            <a class="nav-link" href="#proyectos">Proyectos</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'home:inicio' %}#proyectos">Proyectos</a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto">Contacto</a>
+                        {% if request.path == '/' %}
+                            <a class="nav-link" href="#contacto">Contacto</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'home:inicio' %}#contacto">Contacto</a>
+                        {% endif %}
                     </li>
                 </ul>
             </div>

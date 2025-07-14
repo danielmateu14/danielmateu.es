@@ -15,7 +15,7 @@ class ProyectoListView(ListView):
 
 class ProyectoDetalleView(DetailView):
     model = Proyecto
-    template_name = 'proyecto_detalle.html'
+    template_name = 'proyectos/proyecto_detalle.html'
     context_object_name = 'proyecto'
     slug_field = 'slug'
     slug_url_kwarg = 'pk'

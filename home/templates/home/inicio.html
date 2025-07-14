@@ -11,7 +11,7 @@
 <!-- Hero Section -->
 <section id="inicio" class="hero-section">
     <div class="hero-overlay"></div>
-    
+
     <!-- Partículas animadas -->
     <div class="hero-particles">
         <div class="particle"></div>
@@ -24,7 +24,7 @@
         <div class="particle"></div>
         <div class="particle"></div>
     </div>
-    
+
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 order-2 order-lg-1">
@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Scroll Indicator -->
     <div class="scroll-indicator">
         <a href="#sobre-mi">
@@ -184,73 +184,74 @@
             </div>
         </div>
         <div class="row">
+            {% for proyecto in proyectos_destacados %}
             <div class="col-lg-4 mb-4 animate-on-scroll">
                 <div class="project-card card h-100">
                     <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-code"></i>
-                        </div>
+                        {% if proyecto.imagen %}
+                            <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" class="img-fluid">
+                            <div class="image-overlay">
+                                <a href="{% url 'proyectos:detalle_proyecto' proyecto.id %}" class="overlay-btn">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="project-placeholder">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <div class="placeholder-content">
+                                    <h6>{{ proyecto.titulo }}</h6>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Proyecto Web Django</h5>
-                        <p class="card-text">
-                            Aplicación web completa desarrollada con Django y Bootstrap,
-                            incluyendo sistema de usuarios y panel administrativo.
-                        </p>
-                        <div class="project-tech">
-                            <span class="badge me-1" style="background-color: #8b5cf6;">Django</span>
-                            <span class="badge me-1" style="background-color: #64748b;">JavaScript</span>
-                            <span class="badge" style="background-color: #10b981;">Bootstrap</span>
+                        <h5 class="card-title">{{ proyecto.titulo }}</h5>
+                        <p class="card-text">{{ proyecto.descripcion|truncatewords:15 }}</p>
+                        
+                        {% if proyecto.tecnologias.all %}
+                        <div class="project-tech mb-3">
+                            {% for tech in proyecto.tecnologias.all|slice:":3" %}
+                                <span class="badge me-1" style="background-color: #8b5cf6;">{{ tech.nombre }}</span>
+                            {% endfor %}
+                            {% if proyecto.tecnologias.count > 3 %}
+                                <span class="badge" style="background-color: #64748b;">+{{ proyecto.tecnologias.count|add:"-3" }}</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="project-actions">
+                            <a href="{% url 'proyectos:detalle_proyecto' proyecto.id %}" class="btn btn-primary">
+                                <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                            </a>
+                            {% if proyecto.url_demo %}
+                            <a href="{{ proyecto.url_demo }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>Demo
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-4 animate-on-scroll">
-                <div class="project-card card h-100">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="no-projects-message animate-on-scroll">
+                    <div class="no-projects-icon">
+                        <i class="fas fa-code"></i>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">API REST</h5>
-                        <p class="card-text">
-                            API RESTful robusta desarrollada con Django REST Framework,
-                            con autenticación y documentación automática.
-                        </p>
-                        <div class="project-tech">
-                            <span class="badge me-1" style="background-color: #8b5cf6;">Django REST</span>
-                            <span class="badge me-1" style="background-color: #64748b;">Python</span>
-                            <span class="badge" style="background-color: #06b6d4;">API</span>
-                        </div>
-                    </div>
+                    <h4>Proyectos en Desarrollo</h4>
+                    <p class="lead">Estoy trabajando en nuevos proyectos que estarán disponibles muy pronto.</p>
+                    <a href="https://github.com/danielmateu14" target="_blank" class="btn btn-outline-primary">
+                        <i class="fab fa-github me-2"></i>Ver GitHub
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-4 mb-4 animate-on-scroll">
-                <div class="project-card card h-100">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Interfaz Responsiva</h5>
-                        <p class="card-text">
-                            Aplicación web moderna con interfaz completamente responsiva
-                            y experiencia de usuario optimizada.
-                        </p>
-                        <div class="project-tech">
-                            <span class="badge me-1" style="background-color: #8b5cf6;">JavaScript</span>
-                            <span class="badge me-1" style="background-color: #64748b;">HTML5</span>
-                            <span class="badge" style="background-color: #10b981;">CSS3</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <div class="text-center mt-4">
             <a href="{% url 'proyectos:lista_proyectos' %}" class="btn btn-outline-primary">
-                <i class="fas fa-plus me-2"></i>Ver todos los proyectos
+                <i class="fas fa-folder me-2"></i>Ver todos los proyectos
             </a>
         </div>
     </div>
