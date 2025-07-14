@@ -239,9 +239,6 @@
     border-color: rgba(255, 255, 255, 0.5);
 }
 
-.image-container:hover img {
-    transform: scale(1.1);
-}
 
 @keyframes float {
     0%, 100% {
@@ -725,5 +722,324 @@
     
     .scroll-indicator {
         bottom: 30px;
+    }
+}
+
+
+.project-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.project-image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(139, 92, 246, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.overlay-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Placeholder mejorado */
+.project-placeholder {
+    height: 100%;
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="code-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.1)" text-anchor="middle">&lt;/&gt;</text></pattern></defs><rect width="100" height="100" fill="url(%23code-pattern)"/></svg>');
+    opacity: 0.3;
+}
+
+.placeholder-icon {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1rem;
+}
+
+.placeholder-icon i {
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.placeholder-content {
+    position: relative;
+    z-index: 1;
+}
+
+.placeholder-content h6 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.placeholder-tech {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* Contenido de la tarjeta */
+.project-card .card-body {
+    padding: 1.5rem;
+}
+
+.project-card .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.project-card .card-text {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.project-tech {
+    margin-bottom: 1.5rem;
+}
+
+.project-tech .badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    font-weight: 500;
+    border-radius: 12px;
+}
+
+.project-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.project-actions .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.project-actions .btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+    border: none;
+    flex-grow: 1;
+}
+
+.project-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+.project-actions .btn-outline-secondary {
+    border-color: #dee2e6;
+    color: #6c757d;
+}
+
+.project-actions .btn-outline-secondary:hover {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+/* Mensaje sin proyectos */
+.no-projects-message {
+    background: white;
+    padding: 4rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.no-projects-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+}
+
+.no-projects-icon::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    border-radius: 50%;
+    animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.no-projects-icon i {
+    color: white;
+    font-size: 2.5rem;
+}
+
+.no-projects-message h4 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.no-projects-message .lead {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* RESPONSIVE para proyectos */
+@media (max-width: 768px) {
+    .project-image {
+        height: 200px;
+    }
+    
+    .project-placeholder {
+        padding: 1.5rem 1rem;
+    }
+    
+    .placeholder-icon i {
+        font-size: 2.5rem;
+    }
+    
+    .placeholder-content h6 {
+        font-size: 1rem;
+    }
+    
+    .placeholder-tech {
+        font-size: 0.8rem;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+    }
+    
+    .project-actions .btn {
+        width: 100%;
+    }
+    
+    .no-projects-message {
+        padding: 3rem 2rem;
+    }
+    
+    .no-projects-icon {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .no-projects-icon i {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .project-image {
+        height: 180px;
+    }
+    
+    .project-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    .project-card .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .project-tech .badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .no-projects-message {
+        padding: 2rem 1.5rem;
     }
 }
