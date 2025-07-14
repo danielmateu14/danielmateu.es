@@ -1,16 +1,20 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-j-9%@-u(7xrgux$b&98=zr4d4ol40*rp2(g*8$up$hqw$=$2(i'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-j-9%@-u(7xrgux$b&98=zr4d4ol40*rp2(g*8$up$hqw$=$2(i')
 
-ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateu-es.onrender.com','127.0.0.1', 'localhost']
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
+ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateu-es.onrender.com', '127.0.0.1', 'localhost']
+
+# Archivos estáticos
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Aplicaciones propias
 APPS_PROPIAS = [
@@ -38,9 +42,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
 ROOT_URLCONF = 'portfolio.urls'
 
 TEMPLATES = [
@@ -60,11 +61,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
+# Base de datos
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -74,14 +73,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Localización
 LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'Europe/Madrid'
 USE_I18N = True
 USE_TZ = True
-
-# Archivos estáticos 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static'] 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
