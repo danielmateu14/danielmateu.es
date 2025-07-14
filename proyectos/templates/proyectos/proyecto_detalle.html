@@ -11,14 +11,14 @@
 <!-- Hero del Proyecto -->
 <section class="proyecto-detalle-hero-optimizado">
     <div class="container">
+        <div class="breadcrumb-custom">
+            <a href="{% url 'proyectos:lista_proyectos' %}" class="breadcrumb-link">
+                <i class="fas fa-arrow-left me-2"></i>Volver a Proyectos
+            </a>
+        </div>
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="proyecto-info animate-on-scroll">
-                    <div class="breadcrumb-custom mb-3">
-                        <a href="{% url 'proyectos:lista_proyectos' %}" class="breadcrumb-link">
-                            <i class="fas fa-arrow-left me-2"></i>Volver a Proyectos
-                        </a>
-                    </div>
                     
                     <h1 class="proyecto-titulo-detalle mb-3">{{ proyecto.titulo }}</h1>
                     <p class="proyecto-descripcion-detalle mb-4">{{ proyecto.descripcion }}</p>
