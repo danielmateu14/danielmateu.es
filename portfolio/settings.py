@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-j-9%@-u(7xrgux$b&98=z
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateu-es.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateues-production.up.railway.app', '127.0.0.1', 'localhost']
 
 # Archivos estáticos
 STATIC_URL = '/static/'
