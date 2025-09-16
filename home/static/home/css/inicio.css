@@ -233,13 +233,7 @@
     border-radius: 50%;
     transition: transform 0.3s ease;
     image-rendering: auto; 
-    -webkit-backface-visibility: hidden; 
     transform: translateZ(0);
-}
-
-.image-container:hover {
-    transform: scale(1.05);
-    border-color: rgba(255, 255, 255, 0.5);
 }
 
 
