@@ -232,6 +232,9 @@
     object-fit: cover;
     border-radius: 50%;
     transition: transform 0.3s ease;
+    image-rendering: auto; 
+    -webkit-backface-visibility: hidden; 
+    transform: translateZ(0);
 }
 
 .image-container:hover {
