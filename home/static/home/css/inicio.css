@@ -232,8 +232,14 @@
     object-fit: cover;
     border-radius: 50%;
     transition: transform 0.3s ease;
-    image-rendering: auto; 
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -1038,5 +1044,13 @@
     
     .no-projects-message {
         padding: 2rem 1.5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .image-container img {
+        image-rendering: auto;
+        -webkit-filter: contrast(1.02) brightness(1.01);
+        filter: contrast(1.02) brightness(1.01);
     }
 }
