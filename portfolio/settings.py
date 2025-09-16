@@ -73,6 +73,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT', '5432'),
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 
@@ -83,6 +84,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://danielmateu.es",
+    "https://www.danielmateu.es",
+]
+
 
 LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'Europe/Madrid'
