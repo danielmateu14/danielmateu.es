@@ -1,5 +1,5 @@
 {
   "build": {
-    "start": "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py loaddata backup.json && gunicorn portfolio.wsgi"
+    "start": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn portfolio.wsgi --timeout 120"
   }
 }

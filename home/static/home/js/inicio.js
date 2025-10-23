@@ -7,32 +7,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Efecto de escritura para el título principal
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const originalText = 'Hola, soy <span style="color: #06b6d4;">Daniel Mateu Sánchez</span>';
+    const nameSpan = document.getElementById('name-span');
+    if (nameSpan) {
         const nameText = "Daniel Mateu Sánchez";
-        const beforeName = "Hola, soy ";
-        
-        // Función para crear efecto de typing
-        function typeText() {
-            heroTitle.innerHTML = beforeName + '<span style="color: #06b6d4;" class="typing-cursor"></span>';
-            
-            let i = 0;
-            const typeInterval = setInterval(() => {
-                if (i < nameText.length) {
-                    const currentText = beforeName + '<span style="color: #06b6d4;">' + nameText.substring(0, i + 1) + '<span class="typing-cursor">|</span></span>';
-                    heroTitle.innerHTML = currentText;
-                    i++;
-                } else {
-                    clearInterval(typeInterval);
-                    setTimeout(() => {
-                        heroTitle.innerHTML = originalText;
-                    }, 2000);
-                }
-            }, 100);
-        }
-        
-        setTimeout(typeText, 2000);
+        let i = 0;
+
+        // Iniciar el efecto de escritura inmediatamente
+        const typeInterval = setInterval(() => {
+            if (i < nameText.length) {
+                nameSpan.textContent = nameText.substring(0, i + 1) + '|';
+                i++;
+            } else {
+                clearInterval(typeInterval);
+                // Quitar el cursor después de terminar
+                setTimeout(() => {
+                    nameSpan.textContent = nameText;
+                }, 500);
+            }
+        }, 100);
     }
     
     // Smooth scroll para botones
