@@ -26,5 +26,16 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     fi
 done
 
+# Determinar el puerto (Railway usa PORT, por defecto 8080)
+PORT=${PORT:-8080}
 echo "Iniciando servidor Gunicorn en puerto $PORT..."
-exec gunicorn portfolio.wsgi --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 --log-level info
+echo "Variables de entorno: PORT=$PORT"
+
+exec gunicorn portfolio.wsgi \
+    --bind 0.0.0.0:$PORT \
+    --workers 1 \
+    --threads 2 \
+    --timeout 120 \
+    --log-level info \
+    --access-logfile - \
+    --error-logfile -

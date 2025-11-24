@@ -11,7 +11,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['danielmateu.es', 'www.danielmateu.es', 'danielmateues-production.up.railway.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    'danielmateu.es',
+    'www.danielmateu.es',
+    'danielmateues-production.up.railway.app',
+    '127.0.0.1',
+    'localhost',
+    '*'  # Permitir todos los hosts (Railway usa hosts internos para healthcheck)
+]
 
 # Archivos estáticos
 STATIC_URL = '/static/'
