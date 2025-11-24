@@ -8,9 +8,9 @@ import os
 # Dirección de binding
 bind = f"0.0.0.0:{os.environ.get('PORT', '8000')}"
 
-# Workers y threads
-workers = int(os.environ.get('GUNICORN_WORKERS', 2))
-threads = int(os.environ.get('GUNICORN_THREADS', 4))
+# Workers y threads (conservador para Railway)
+workers = 1
+threads = int(os.environ.get('GUNICORN_THREADS', 2))
 worker_class = 'gthread'
 worker_connections = 1000
 
@@ -29,8 +29,8 @@ errorlog = '-'
 loglevel = 'info'
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" %(D)s'
 
-# Preload app para mejor performance
-preload_app = True
+# Preload app deshabilitado para evitar problemas con migraciones
+preload_app = False
 
 # Configuración de proceso
 daemon = False

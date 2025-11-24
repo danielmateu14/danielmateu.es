@@ -6,7 +6,11 @@
       "Bash(git commit -m \"$(cat <<''EOF''\nOptimización de cold start y mejora del efecto typewriter\n\n- Eliminado loaddata del inicio de Railway para arranque más rápido\n- Agregado timeout de 120s a Gunicorn\n- Agregado timeout de 10s a conexión de base de datos\n- Simplificado efecto de máquina de escribir (sin parpadeo inicial)\n- Nombre se escribe inmediatamente desde el inicio sin texto previo\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push origin master)",
       "Bash(git -C \"c:\\Users\\danim\\Desktop\\Daniel\\Proyectos\\danielmateu.es\" log --oneline -10)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git commit:*)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
