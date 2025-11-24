@@ -73,14 +73,10 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT', '5432'),
-        'CONN_MAX_AGE': 600,  # Mantiene conexiones durante 10 minutos
+        'CONN_MAX_AGE': 0,  # Deshabilitado para evitar conexiones cerradas
         'OPTIONS': {
             'sslmode': 'require',
-            'connect_timeout': 30,  # Aumentado para cold start
-            'keepalives': 1,
-            'keepalives_idle': 30,
-            'keepalives_interval': 10,
-            'keepalives_count': 5,
+            'connect_timeout': 60,  # Aumentado a 60s para cold start
         },
     }
 }
