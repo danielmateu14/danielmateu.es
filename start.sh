@@ -30,6 +30,15 @@ done
 echo "Verificando conexión a la base de datos..."
 python manage.py shell -c "from django.db import connection; connection.ensure_connection(); print('Conexión a DB establecida')" || echo "Advertencia: No se pudo verificar la conexión a DB"
 
+# Crear superusuario admin si no existe
+echo "Configurando superusuario..."
+python manage.py shell -c "
+from django.contrib.auth.models import User
+User.objects.filter(is_superuser=True).delete()
+User.objects.create_superuser('admin', 'admin@danielmateu.es', 'Dani1997')
+print('Superusuario admin creado')
+" || echo "Advertencia: No se pudo crear superusuario"
+
 # Determinar el puerto (Railway usa PORT, por defecto 8080)
 PORT=${PORT:-8080}
 echo "Iniciando servidor Gunicorn en puerto $PORT..."
