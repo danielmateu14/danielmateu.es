@@ -26,6 +26,10 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     fi
 done
 
+# Warm-up: hacer una query simple para establecer conexión con la DB
+echo "Verificando conexión a la base de datos..."
+python manage.py shell -c "from django.db import connection; connection.ensure_connection(); print('Conexión a DB establecida')" || echo "Advertencia: No se pudo verificar la conexión a DB"
+
 # Determinar el puerto (Railway usa PORT, por defecto 8080)
 PORT=${PORT:-8080}
 echo "Iniciando servidor Gunicorn en puerto $PORT..."
