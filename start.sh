@@ -26,5 +26,5 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     fi
 done
 
-echo "Iniciando servidor Gunicorn..."
+echo "Iniciando servidor Gunicorn en puerto $PORT..."
 exec gunicorn portfolio.wsgi --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 --log-level info
