@@ -3,14 +3,16 @@ from django.db import migrations, models, connection
 
 
 def fix_imagen_field(apps, schema_editor):
-    """Arregla el campo imagen en la base de datos"""
+    """Arregla el campo imagen en la base de datos (compatible con PostgreSQL y SQLite)"""
+    table = 'proyectos_proyecto'
     with connection.cursor() as cursor:
-        # Verificar qué columnas existen
-        cursor.execute("""
-            SELECT column_name FROM information_schema.columns
-            WHERE table_name = 'proyectos_proyecto'
-        """)
-        columns = [row[0] for row in cursor.fetchall()]
+        # Introspección agnóstica del motor: si la tabla no existe aún, no hay nada que arreglar
+        if table not in connection.introspection.table_names(cursor):
+            return
+        columns = [
+            col.name
+            for col in connection.introspection.get_table_description(cursor, table)
+        ]
 
         # Si existe imagen_nombre pero no imagen, renombrar
         if 'imagen_nombre' in columns and 'imagen' not in columns:

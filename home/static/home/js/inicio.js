@@ -27,26 +27,68 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
     
+    // Posición de scroll donde la sección de proyectos queda ENSAMBLADA y
+    // cuadrada (zona de settle del efecto pinned). Devuelve null si el efecto
+    // no está activo (móvil / reduce-motion / sin JS del pin) para usar el
+    // scroll normal en esos casos.
+    function getProyectosFramedScroll() {
+        const section = document.querySelector('.proyectos-section');
+        const wrapper = section && section.querySelector('.proyectos-scroll');
+        if (!wrapper || !section.classList.contains('reveal-active')) return null;
+        if (window.innerWidth <= 768) return null;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const total = wrapper.offsetHeight - vh;
+        if (total <= 0) return null;
+        const lead = vh * 0.35;   // debe coincidir con computeTarget() del pin
+        const targetP = 0.72;     // ensamblado + un poco de settle (bien cuadrado)
+        const wrapperAbsTop = wrapper.getBoundingClientRect().top + window.pageYOffset;
+        return Math.max(0, wrapperAbsTop - lead + targetP * (total + lead));
+    }
+
+    // Scroll suave: usa Lenis (inercia) si está disponible; si no, nativo.
+    function smoothScrollTo(y) {
+        y = Math.max(0, y);
+        if (window.lenis) {
+            window.lenis.scrollTo(y, { duration: 0.9 });
+        } else {
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    }
+
     // Smooth scroll para botones
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
+
+            // "Proyectos": auto-scroll que termina en la posición ensamblada.
+            if (targetId === '#proyectos') {
+                const framed = getProyectosFramedScroll();
+                if (framed !== null) {
+                    smoothScrollTo(framed);
+                    return;
+                }
+            }
+
             const targetElement = document.querySelector(targetId);
-            
             if (targetElement) {
-                const isMobile = window.innerWidth <= 768;
-                const headerOffset = isMobile ? 80 : 80;
+                const headerOffset = 80;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
-                window.scrollTo({
-                    top: Math.max(0, offsetPosition),
-                    behavior: 'smooth'
-                });
+                smoothScrollTo(offsetPosition);
             }
         });
     });
+
+    // Si se llega a la home con #proyectos (p.ej. desde otra página),
+    // lleva suavemente a la posición ensamblada en vez de al inicio del efecto.
+    if (window.location.hash === '#proyectos') {
+        setTimeout(function () {
+            const framed = getProyectosFramedScroll();
+            if (framed !== null) smoothScrollTo(framed);
+        }, 350);
+    }
     
     // Animación de las tecnologías en el hero con delay escalonado
     const techBadges = document.querySelectorAll('.tech-badge');
@@ -312,4 +354,150 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.particle, .floating-icon').forEach(element => {
         intersectionObserver.observe(element);
     });
+
+    // ============================================================
+    // Descarga la escena 3D (Spline) del hero cuando no está visible:
+    // el runtime de Spline renderiza a cada frame aunque esté fuera de
+    // pantalla, así que ocultarlo libera GPU y suaviza el scroll del resto
+    // de la página. Se vuelve a mostrar al regresar al inicio.
+    // ============================================================
+    (function offscreenSpline() {
+        const hero = document.querySelector('.hero-section');
+        const bg = document.querySelector('.hero-3d-bg');
+        if (!hero || !bg || !('IntersectionObserver' in window)) return;
+
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                // display:none saca el canvas del árbol de render (sin coste de composición).
+                bg.style.display = entry.isIntersecting ? '' : 'none';
+            });
+        }, { rootMargin: '100px' }); // pequeño margen para que no parpadee al borde
+
+        obs.observe(hero);
+    })();
+
+    // ============================================================
+    // Sección "Mis Proyectos" — efecto PINNED scrollytelling.
+    // Mientras .proyectos-pin está pegado (sticky), medimos el progreso
+    // (0 → 1) del recorrido y, por RENDIMIENTO, escribimos las transforms
+    // INLINE solo en los elementos que se mueven (tarjetas, título, botón
+    // y resplandor). Así NO invalidamos el estilo de todo el subárbol en
+    // cada frame (que era lo que producía los tirones).
+    // ============================================================
+    (function initProyectosReveal() {
+        const section = document.querySelector('.proyectos-section');
+        const wrapper = section && section.querySelector('.proyectos-scroll');
+        if (!section || !wrapper) return;
+
+        section.classList.add('reveal-active');
+
+        const cards = Array.prototype.slice.call(section.querySelectorAll('.reveal-card'));
+        const header = section.querySelector('.proy-header');
+        const outro = section.querySelector('.proy-outro');
+        const extras = [header, outro];
+
+        // Posición/escala de partida de cada tarjeta (collage disperso).
+        const cardCfg = [
+            { sx: -42, sy: -26, ss: 1.7 },  // vw, vh, escala
+            { sx:  44, sy:  30, ss: 1.9 },
+            { sx: -34, sy:  36, ss: 1.5 }
+        ];
+        const clamp01 = (v) => (v < 0 ? 0 : (v > 1 ? 1 : v));
+
+        function applyRest() { // estado ensamblado (sin animación)
+            cards.forEach((c) => { c.style.transform = 'translate(0,0) scale(1)'; c.style.opacity = '1'; });
+            extras.forEach((el) => { if (el) { el.style.opacity = '1'; el.style.transform = 'none'; } });
+        }
+        function clearInline() { // deja que mande el CSS (móvil)
+            cards.forEach((c) => { c.style.transform = ''; c.style.opacity = ''; });
+            extras.forEach((el) => { if (el) { el.style.opacity = ''; el.style.transform = ''; } });
+        }
+
+        // Respeta la preferencia del usuario: sin animación, todo ensamblado.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            applyRest();
+            return;
+        }
+
+        // Escala el bloque para que SIEMPRE quepa en la altura disponible
+        // del escenario pinned (alto pantalla − navbar), sin recortes.
+        const pin = section.querySelector('.proyectos-pin');
+        const container = pin && pin.querySelector('.container');
+        function updateFit() {
+            if (!pin || !container) return;
+            const cs = getComputedStyle(pin);
+            const padding = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+            const avail = pin.clientHeight - padding - 10;
+            const natural = container.scrollHeight;
+            let fit = natural > 0 ? avail / natural : 1;
+            fit = Math.min(1, Math.max(0.9, fit));
+            section.style.setProperty('--fit', fit.toFixed(4));
+        }
+
+        // Aplica un frame del efecto a partir del progreso p (0 → 1).
+        function applyFrame(p) {
+            if (window.innerWidth <= 768) { clearInline(); return; } // móvil: layout normal
+            const vw = window.innerWidth, vh = window.innerHeight;
+            for (let i = 0; i < cards.length; i++) {
+                const c = cardCfg[i] || { sx: 0, sy: 0, ss: 1 };
+                const cp = clamp01((p - i * 0.11) * 2.6);   // arranque escalonado por índice
+                const inv = 1 - cp;
+                const tx = (c.sx / 100 * vw) * inv;
+                const ty = (c.sy / 100 * vh) * inv;
+                const sc = 1 + (c.ss - 1) * inv;
+                cards[i].style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+                cards[i].style.opacity = clamp01(cp * 1.4).toFixed(3);
+            }
+            const op = clamp01((p - 0.42) * 5.5);          // título + botón al final
+            const ety = ((1 - op) * 30).toFixed(1);
+            extras.forEach((el) => {
+                if (!el) return;
+                el.style.opacity = op.toFixed(3);
+                el.style.transform = 'translateY(' + ety + 'px)';
+            });
+        }
+
+        // Progreso objetivo. El "lead" hace que el montaje empiece un poco
+        // antes de que la sección quede pegada (mientras aún está entrando).
+        let cachedTotal = 0;
+        function computeTarget() {
+            const vh = window.innerHeight || document.documentElement.clientHeight;
+            const total = cachedTotal;                 // alto cacheado (se recalcula en resize)
+            if (total <= 0) return 0;
+            const lead = vh * 0.35;
+            const top = wrapper.getBoundingClientRect().top;
+            const p = (lead - top) / (total + lead);
+            return Math.min(1, Math.max(0, p));
+        }
+
+        let target = 0, current = 0, rafId = null;
+        const hasLenis = !!window.lenis;
+
+        function loop() { // fallback sin Lenis: suaviza con lerp
+            current += (target - current) * 0.16;
+            if (Math.abs(target - current) < 0.0004) current = target;
+            applyFrame(current);
+            rafId = (current === target) ? null : requestAnimationFrame(loop);
+        }
+        function onRevealScroll() {
+            target = computeTarget();
+            if (hasLenis) { current = target; applyFrame(current); }   // Lenis ya suaviza
+            else if (rafId === null) rafId = requestAnimationFrame(loop);
+        }
+        function onResize() {
+            cachedTotal = wrapper.offsetHeight - (window.innerHeight || document.documentElement.clientHeight);
+            updateFit();
+            onRevealScroll();
+        }
+
+        // Init
+        cachedTotal = wrapper.offsetHeight - (window.innerHeight || document.documentElement.clientHeight);
+        updateFit();
+        if (hasLenis) window.lenis.on('scroll', onRevealScroll);
+        window.addEventListener('scroll', onRevealScroll, { passive: true });
+        window.addEventListener('resize', onResize, { passive: true });
+        window.addEventListener('load', onResize);
+        target = current = computeTarget();
+        applyFrame(current);
+    })();
 });

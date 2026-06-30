@@ -10,27 +10,23 @@
 {% block content %}
 <!-- Hero Section -->
 <section id="inicio" class="hero-section">
-    <div class="hero-overlay"></div>
-
-    <!-- Partículas animadas -->
-    <div class="hero-particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+    <!-- Escena 3D de fondo (Spline) -->
+    <div class="hero-3d-bg">
+        <spline-viewer
+            url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            loading-anim-type="none">
+        </spline-viewer>
     </div>
+
+    <!-- Capa de oscurecimiento para legibilidad -->
+    <div class="hero-overlay"></div>
 
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 order-2 order-lg-1">
+            <div class="col-lg-7 order-2 order-lg-1">
                 <div class="hero-content animate-on-scroll">
                     <h1 class="hero-title" id="hero-title-typing">
-                        Hola, soy <span style="color: #06b6d4;" id="name-span"></span>
+                        Hola, soy <span style="color: #ef4444;" id="name-span"></span>
                     </h1>
                     <h2 class="hero-subtitle">Desarrollador Web Full Stack Junior</h2>
                     <p class="hero-description">
@@ -57,11 +53,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2">
+            <div class="col-lg-5 order-1 order-lg-2">
                 <div class="hero-image animate-on-scroll">
                     <div class="image-container">
                         <img src="{% static 'imagenes/perfil.jpeg' %}" alt="Daniel Mateu Sánchez"
-                            class="img-fluid rounded shadow-lg" >
+                            class="img-fluid w-100 h-100">
                     </div>
                 </div>
             </div>
@@ -112,16 +108,16 @@
                     <div class="tech-stack">
                         <h5 class="mb-3">Tecnologías principales:</h5>
                         <div class="tech-badges">
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">JavaScript</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Python</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Django</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Django REST</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Bootstrap</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Java</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">PostgreSQL</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">SQLite</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Git</span>
-                            <span class="badge me-2 mb-2" style="background-color: #8b5cf6;">Fork</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">JavaScript</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Python</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Django</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Django REST</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Bootstrap</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Java</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">PostgreSQL</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">SQLite</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Git</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Fork</span>
 
                         </div>
                     </div>
@@ -144,7 +140,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <h5 class="card-title mb-0">Desarrollador Full Stack Junior</h5>
-                                    <span class="badge" style="background-color: #8b5cf6;">2025 - Presente</span>
+                                    <span class="badge" style="background-color: #ef4444;">2025 - Presente</span>
                                 </div>
                                 <h6 class="text-muted mb-3">Redarquía Digital</h6>
                                 <p class="card-text">
@@ -173,19 +169,23 @@
 </section>
 
 <!-- Proyectos Preview Section -->
-<section id="proyectos" class="section-padding">
-    <div class="container">
+<section id="proyectos" class="proyectos-section">
+  <!-- .proyectos-scroll da el "recorrido" de scroll; .proyectos-pin se queda fijo -->
+  <div class="proyectos-scroll">
+    <div class="proyectos-pin">
+      <div class="proy-glow" aria-hidden="true"></div>
+      <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="section-title animate-on-scroll">Mis Proyectos</h2>
-                <p class="section-subtitle animate-on-scroll">
+            <div class="col-lg-8 mx-auto text-center proy-header">
+                <h2 class="section-title">Mis Proyectos</h2>
+                <p class="section-subtitle">
                     Algunos de los proyectos en los que he trabajado
                 </p>
             </div>
         </div>
-        <div class="row">
+        <div class="row proy-grid">
             {% for proyecto in proyectos_destacados %}
-            <div class="col-lg-4 mb-4 animate-on-scroll">
+            <div class="col-lg-4 mb-4 reveal-card" style="--i: {{ forloop.counter0 }};">
                 <div class="project-card card h-100">
                     <div class="project-image">
                         {% if proyecto.imagen %}
@@ -213,7 +213,7 @@
                         {% if proyecto.tecnologias.all %}
                         <div class="project-tech mb-3">
                             {% for tech in proyecto.tecnologias.all|slice:":3" %}
-                                <span class="badge me-1" style="background-color: #8b5cf6;">{{ tech.nombre }}</span>
+                                <span class="badge me-1" style="background-color: #ef4444;">{{ tech.nombre }}</span>
                             {% endfor %}
                             {% if proyecto.tecnologias.count > 3 %}
                                 <span class="badge" style="background-color: #64748b;">+{{ proyecto.tecnologias.count|add:"-3" }}</span>
@@ -249,12 +249,14 @@
             </div>
             {% endfor %}
         </div>
-        <div class="text-center mt-4">
+      </div>
+      <div class="text-center proy-outro">
             <a href="{% url 'proyectos:lista_proyectos' %}" class="btn btn-outline-primary">
                 <i class="fas fa-folder me-2"></i>Ver todos los proyectos
             </a>
-        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Contacto Section -->
@@ -275,7 +277,7 @@
                         <div class="col-md-4 text-center mb-4">
                             <div class="contact-item">
                                 <a href="mailto:mateudani97@gmail.com" class="contact-link">
-                                    <i class="fas fa-envelope fa-2x mb-3" style="color: #8b5cf6;"></i>
+                                    <i class="fas fa-envelope fa-2x mb-3" style="color: #ef4444;"></i>
                                     <h5>Email</h5>
                                 </a>
                             </div>
@@ -283,7 +285,7 @@
                         <div class="col-md-4 text-center mb-4">
                             <div class="contact-item">
                                 <a href="https://www.linkedin.com/in/danimateu14/" target="_blank" class="contact-link">
-                                    <i class="fab fa-linkedin fa-2x mb-3" style="color: #8b5cf6;"></i>
+                                    <i class="fab fa-linkedin fa-2x mb-3" style="color: #ef4444;"></i>
                                     <h5>LinkedIn</h5>
                                 </a>
                             </div>
@@ -291,7 +293,7 @@
                         <div class="col-md-4 text-center mb-4">
                             <div class="contact-item">
                                 <a href="https://github.com/danielmateu14" target="_blank" class="contact-link">
-                                    <i class="fab fa-github fa-2x mb-3" style="color: #8b5cf6;"></i>
+                                    <i class="fab fa-github fa-2x mb-3" style="color: #ef4444;"></i>
                                     <h5>GitHub</h5>
                                 </a>
                             </div>
@@ -305,5 +307,25 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- Spline viewer (web component vanilla, equivalente a @splinetool/react-spline) -->
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"></script>
+<script>
+    // Oculta el logo "Built with Spline" (vive dentro del shadow DOM del componente)
+    (function removeSplineLogo() {
+        let intentos = 0;
+        const timer = setInterval(function () {
+            let encontrado = false;
+            document.querySelectorAll('spline-viewer').forEach(function (viewer) {
+                const logo = viewer.shadowRoot && viewer.shadowRoot.querySelector('#logo');
+                if (logo) {
+                    logo.remove();
+                    encontrado = true;
+                }
+            });
+            intentos++;
+            if (encontrado || intentos > 40) clearInterval(timer);
+        }, 250);
+    })();
+</script>
 <script src="{% static 'home/js/inicio.js' %}"></script>
 {% endblock %}

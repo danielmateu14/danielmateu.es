@@ -1,0 +1,26 @@
+# Servicio systemd para gunicorn (danielmateu.es)
+# Copiar a: /etc/systemd/system/gunicorn.service
+# Luego:    sudo systemctl daemon-reload
+#           sudo systemctl enable --now gunicorn
+#           sudo systemctl status gunicorn
+
+[Unit]
+Description=Gunicorn (Django) - danielmateu.es
+After=network.target postgresql.service
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/danielmateu.es
+EnvironmentFile=/home/ubuntu/danielmateu.es/.env
+# El --bind 127.0.0.1:8000 (CLI) tiene prioridad sobre gunicorn_config.py:
+# así gunicorn solo escucha en local y Nginx hace de puerta de entrada.
+ExecStart=/home/ubuntu/danielmateu.es/venv/bin/gunicorn \
+    --config /home/ubuntu/danielmateu.es/gunicorn_config.py \
+    --bind 127.0.0.1:8000 \
+    portfolio.wsgi:application
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

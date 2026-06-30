@@ -878,7 +878,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="code-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.1)" text-anchor="middle">&lt;/&gt;</text></pattern></defs><rect width="100" height="100" fill="url(%23code-pattern)"/></svg>');
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="code-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.1)" text-anchor="middle">&lt;/&gt;</text></pattern></defs><rect width="100" height="100" fill="url("#code-pattern#code-pattern")"/></svg>');
     opacity: 0.3;
 }
 
@@ -1115,147 +1115,65 @@
 }
 
 /* ============================================================
-   Sección "Mis Proyectos" — efecto PINNED scrollytelling
-   Inspirado en modern-hero (21st.dev): el bloque se queda fijo
-   (.proyectos-pin = sticky a pantalla completa) mientras el
-   contenedor alto (.proyectos-scroll) aporta "recorrido" de
-   scroll. Durante ese recorrido (--p de 0 → 1) las tarjetas
-   entran grandes y dispersas con parallax desde distintas
-   posiciones/profundidades, y al final se ensamblan en la
-   rejilla mientras aparecen el título y el botón.
-
-   FALLBACK: sin la clase .reveal-active (JS off / reduce-motion
-   / móvil) NO se activa el pin: layout normal y todo visible.
-   La variable --p (0 → 1) la actualiza inicio.js.
+   Entrada a la sección "Mis Proyectos"
+   Reveal scroll-driven inspirado en modern-hero (21st.dev):
+   - Cabecera con wipe de clip-path
+   - Tarjetas con parallax + fade escalonado (--i = índice)
+   - Resplandor de fondo que se intensifica al revelar
+   La variable --p (0 → 1) la actualiza inicio.js según el scroll.
+   Sin la clase .reveal-active (JS desactivado / reduce-motion)
+   todo queda visible por defecto: sin FOUC, sin contenido oculto.
    ============================================================ */
 .proyectos-section {
     --p: 0;
     position: relative;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-/* --- ACTIVO (con JS, desktop) ------------------------------- */
-
-/* Contenedor alto: cuanto más alto, más largo dura el efecto.
-   El montaje termina ~al 60% del recorrido (ver multiplicadores
-   de .reveal-card / .proy-header); el 40% restante es "settle":
-   la rejilla se queda fija y cuadrada antes de pasar a Contacto. */
-.proyectos-section.reveal-active .proyectos-scroll {
-    position: relative;
-    height: 230vh;
-}
-
-/* Escenario que se queda pegado ocupando la pantalla.
-   padding-top reserva el alto del navbar fijo para que el título
-   no quede tapado al centrar el contenido. */
-.proyectos-section.reveal-active .proyectos-pin {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    padding-top: var(--navbar-height, 76px);
-}
-
-/* Escala el bloque para que SIEMPRE quepa en la altura disponible
-   (--fit lo calcula inicio.js). En pantallas altas vale 1 (tamaño
-   completo); en pantallas bajas reduce en lugar de recortar. */
-.proyectos-section.reveal-active .proyectos-pin .container {
-    transform: scale(var(--fit, 1));
-    transform-origin: center center;
-}
-
-/* Compactación LIGERA en pinned: tamaño casi como el original, solo
-   se le quita un pelín. El botón se ancla al fondo del escenario
-   (fuera del bloque centrado) para liberar alto y dejar tarjetas grandes. */
-.proyectos-section.reveal-active .proyectos-pin .proy-header {
-    margin-bottom: 1rem;
-}
-.proyectos-section.reveal-active .proyectos-pin .project-image {
-    height: 200px;               /* original 220, solo un poco menos */
-}
-.proyectos-section.reveal-active .proyectos-pin .card-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;       /* descripción a 3 líneas */
-    -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.proyectos-section.reveal-active .proyectos-pin .reveal-card.mb-4 {
-    margin-bottom: 0 !important;
-}
 
-/* Botón "Ver todos" anclado al fondo del escenario: no ocupa alto
-   del bloque, así las tarjetas pueden ir a tamaño casi completo. */
-.proyectos-section.reveal-active .proyectos-pin > .proy-outro {
+.proyectos-section.reveal-active::before {
+    content: '';
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 1.5rem;
-    margin: 0;
-    z-index: 2;
-}
-
-/* Resplandor rojo de fondo, ESTÁTICO (no se anima por frame → 0 coste
-   de repintado durante el scroll, ni capa GPU permanente). */
-.proyectos-section.reveal-active .proy-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 60% at 50% 50%,
+    top: -8%;
+    left: 50%;
+    width: 70vw;
+    max-width: 900px;
+    height: 55%;
+    transform: translateX(-50%) scale(calc(0.65 + var(--p) * 0.35));
+    background: radial-gradient(ellipse at center,
         rgba(239, 68, 68, 0.16) 0%,
         rgba(239, 68, 68, 0) 70%);
-    opacity: 0.5;
+    opacity: var(--p);
     pointer-events: none;
     z-index: 0;
 }
 
-.proyectos-section.reveal-active .proyectos-pin .container {
+.proyectos-section .container {
     position: relative;
     z-index: 1;
 }
 
-/* Título, botón y tarjetas: la coreografía (opacidad, posición, vuelo y
-   ensamblado) la calcula y aplica INLINE inicio.js, por rendimiento.
-   Sin will-change permanente: el navegador promueve la capa solo durante
-   el transform y la libera al acabar (no satura el compositor en reposo).
-   Aquí solo dejamos el z-index del collage. */
-.proyectos-section.reveal-active .reveal-card:nth-child(1) { z-index: 1; }
-.proyectos-section.reveal-active .reveal-card:nth-child(2) { z-index: 3; }
-.proyectos-section.reveal-active .reveal-card:nth-child(3) { z-index: 2; }
-
-/* --- Móvil: desactiva el pin (layout normal, sin huecos) ----- */
-@media (max-width: 768px) {
-    .proyectos-section.reveal-active .proyectos-scroll { height: auto; }
-    .proyectos-section.reveal-active .proyectos-pin {
-        position: static;
-        height: auto;
-        overflow: visible;
-        padding: 4rem 0;
-    }
-    .proyectos-section.reveal-active .reveal-card,
-    .proyectos-section.reveal-active .proy-header,
-    .proyectos-section.reveal-active .proy-outro,
-    .proyectos-section.reveal-active .proyectos-pin .container {
-        transform: none;
-        opacity: 1;
-    }
+/* Cabecera: wipe vertical con clip-path + desplazamiento */
+.proyectos-section.reveal-active .reveal-header {
+    clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0);
+    transform: translateY(calc((1 - var(--p)) * 40px));
+    opacity: var(--p);
+    will-change: clip-path, transform, opacity;
 }
 
-/* --- Reduce-motion: sin animación, todo visible -------------- */
+/* Tarjetas: cada una arranca su animación algo más tarde (--i) */
+.proyectos-section.reveal-active .reveal-card {
+    --cp: clamp(0, calc((var(--p) - var(--i, 0) * 0.08) * 2.2), 1);
+    transform: translateY(calc((1 - var(--cp)) * 70px));
+    opacity: var(--cp);
+    will-change: transform, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .proyectos-section.reveal-active .proyectos-scroll { height: auto; }
-    .proyectos-section.reveal-active .proyectos-pin {
-        position: static;
-        height: auto;
-        overflow: visible;
-        padding: 4rem 0;
-    }
-    .proyectos-section.reveal-active .reveal-card,
-    .proyectos-section.reveal-active .proy-header,
-    .proyectos-section.reveal-active .proy-outro,
-    .proyectos-section.reveal-active .proyectos-pin .container {
+    .proyectos-section.reveal-active .reveal-header,
+    .proyectos-section.reveal-active .reveal-card {
+        clip-path: none;
         transform: none;
         opacity: 1;
     }
+    .proyectos-section.reveal-active::before { opacity: 0.5; }
 }
