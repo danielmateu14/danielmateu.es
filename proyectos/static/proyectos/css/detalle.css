@@ -230,6 +230,7 @@
 }
 
 .imagen-container img {
+    display: block;
     width: 100%;
     height: auto;
     transition: var(--transition-slow);
@@ -238,6 +239,28 @@
 
 .imagen-container:hover img {
     transform: scale(1.05);
+}
+
+/* Overlay de lupa: SOBRE la imagen (absoluto), no como bloque debajo
+   (sin esto se renderizaba como caja y dejaba un hueco claro bajo la foto). */
+.imagen-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    background: rgba(239, 68, 68, 0);
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+    border-radius: calc(var(--border-radius-lg) - 3px);
+}
+
+.imagen-container:hover .imagen-overlay {
+    opacity: 1;
+    background: rgba(239, 68, 68, 0.35);
 }
 
 /* Placeholder del proyecto */
@@ -443,7 +466,6 @@
     display: none;
     position: relative;
     width: 100%;
-    height: 400px;
     overflow: hidden;
 }
 
@@ -453,9 +475,10 @@
 }
 
 .slide img {
+    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;          /* el contenedor toma la altura real de la imagen (sin barras negras) */
+    cursor: zoom-in;
     transition: var(--transition);
 }
 
@@ -1085,7 +1108,7 @@
     
     .slideshow-container,
     .slide {
-        height: 300px;
+        height: auto;
     }
 
     /* Highlights mobile */
@@ -1243,7 +1266,7 @@
     /* Slideshow mobile small */
     .slideshow-container,
     .slide {
-        height: 250px;
+        height: auto;
     }
     
     .slideshow-controls {
@@ -1382,4 +1405,122 @@
     .contacto-info-item {
         border-width: 2px;
     }
+}
+
+/* ===== Lightbox: ampliar imágenes (hero + slideshow) ===== */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.92);
+    padding: 2rem;
+    cursor: zoom-out;
+}
+
+.lightbox.open {
+    display: flex;
+    animation: lightboxFade 0.2s ease;
+}
+
+@keyframes lightboxFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lightbox-img {
+    max-width: 95vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+}
+
+/* En móvil no se amplía: sin cursor de zoom ni icono de lupa */
+@media (max-width: 768px) {
+    .slide img,
+    .imagen-container {
+        cursor: default;
+    }
+    .imagen-overlay {
+        display: none !important;
+    }
+}
+
+/* Botones de la sección de contacto (definidos en inicio.css, que no se
+   carga aquí): sin esto el texto sale oscuro y sin contraste. */
+.btn-custom-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.6rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-primary:hover,
+.btn-custom-primary:focus {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn-custom-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    padding: 0.75rem 1.6rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-secondary:hover,
+.btn-custom-secondary:focus {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Centrado robusto del contenido (icono + texto) de los botones de contacto.
+   Usamos gap y anulamos el margen del icono (me-2/me-3) para que quede simétrico. */
+.contacto-buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    line-height: 1.2;
+    text-align: center;
+    /* Anula el me-3 del botón Email, que lo descuadraba respecto al de LinkedIn.
+       La separación entre botones la da el 'gap' del contenedor .contacto-buttons. */
+    margin: 0 !important;
+}
+
+.contacto-buttons .btn i {
+    margin: 0 !important;
 }

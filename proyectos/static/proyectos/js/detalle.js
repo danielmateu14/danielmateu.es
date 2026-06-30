@@ -74,6 +74,51 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
     
+    // FUNCIONALIDAD: Lightbox para ampliar imágenes (hero + slideshow)
+    (function initLightbox() {
+        const lb = document.createElement('div');
+        lb.className = 'lightbox';
+        lb.innerHTML = '<span class="lightbox-close" aria-label="Cerrar">&times;</span>' +
+            '<img class="lightbox-img" alt="">';
+        document.body.appendChild(lb);
+        const lbImg = lb.querySelector('.lightbox-img');
+
+        function open(src, alt) {
+            if (!src) return;
+            if (window.innerWidth <= 768) return; // en móvil no se amplía
+            lbImg.src = src;
+            lbImg.alt = alt || '';
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function close() {
+            lb.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        // Cerrar al pulsar fuera de la imagen o en la X
+        lb.addEventListener('click', function (e) {
+            if (e.target === lb || e.target.classList.contains('lightbox-close')) close();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') close();
+        });
+
+        // Imagen principal del hero (se hace clic en el contenedor)
+        const heroContainer = document.querySelector('.imagen-container');
+        const heroImg = heroContainer && heroContainer.querySelector('img');
+        if (heroContainer && heroImg) {
+            heroContainer.addEventListener('click', function () {
+                open(heroImg.currentSrc || heroImg.src, heroImg.alt);
+            });
+        }
+        // Imágenes del slideshow
+        document.querySelectorAll('.slide img').forEach(function (img) {
+            img.addEventListener('click', function () {
+                open(img.currentSrc || img.src, img.alt);
+            });
+        });
+    })();
+
     // FUNCIONALIDAD PRINCIPAL: Slideshow de imágenes
     let slideIndex = 1;
     let autoPlayInterval;

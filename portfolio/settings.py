@@ -20,6 +20,12 @@ ALLOWED_HOSTS = [
     ).split(',') if h.strip()
 ]
 
+# En desarrollo (DEBUG=True) aceptamos cualquier host para poder abrir el sitio
+# desde otros dispositivos de la red local (móvil, tablet) usando la IP del PC.
+# En producción (DEBUG=False) NO aplica: ahí manda la lista de arriba.
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+
 # Archivos estáticos
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

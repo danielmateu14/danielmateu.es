@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Efecto de escritura para el título principal
     const nameSpan = document.getElementById('name-span');
     if (nameSpan) {
-        const nameText = "Daniel Mateu Sánchez";
+        const nameText = "Daniel Mateu";
         let i = 0;
 
         // Iniciar el efecto de escritura inmediatamente
@@ -368,8 +368,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const obs = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                // display:none saca el canvas del árbol de render (sin coste de composición).
-                bg.style.display = entry.isIntersecting ? '' : 'none';
+                // visibility:hidden (no display:none): mantiene el tamaño del canvas
+                // para que el runtime de Spline no falle con framebuffer 0x0 (errores WebGL),
+                // pero deja de pintarse cuando el hero no está en pantalla.
+                bg.style.visibility = entry.isIntersecting ? '' : 'hidden';
             });
         }, { rootMargin: '100px' }); // pequeño margen para que no parpadee al borde
 

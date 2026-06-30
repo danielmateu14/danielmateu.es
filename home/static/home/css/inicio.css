@@ -1114,6 +1114,15 @@
     }
 }
 
+/* En móvil bajamos la escena 3D para que la cabeza del robot caiga en la
+   zona del texto (detrás de la foto no se apreciaba el giro de cabeza).
+   Sube/baja el translateY si quieres ajustar la altura del robot. */
+@media (max-width: 768px) {
+    .hero-3d-bg {
+        transform: translateY(20vh);
+    }
+}
+
 /* ============================================================
    Sección "Mis Proyectos" — efecto PINNED scrollytelling
    Inspirado en modern-hero (21st.dev): el bloque se queda fijo
@@ -1224,11 +1233,15 @@
 .proyectos-section.reveal-active .reveal-card:nth-child(2) { z-index: 3; }
 .proyectos-section.reveal-active .reveal-card:nth-child(3) { z-index: 2; }
 
-/* --- Móvil: desactiva el pin (layout normal, sin huecos) ----- */
+/* --- Móvil: desactiva el pin (layout normal, sin huecos) -----
+   display:block es CLAVE: si el pin sigue siendo flex, el .container
+   (flex-item con min-width:auto) no encoge bajo su contenido y empuja
+   la página más ancha que la pantalla (scroll horizontal). */
 @media (max-width: 768px) {
     .proyectos-section.reveal-active .proyectos-scroll { height: auto; }
     .proyectos-section.reveal-active .proyectos-pin {
         position: static;
+        display: block;
         height: auto;
         overflow: visible;
         padding: 4rem 0;
@@ -1239,6 +1252,16 @@
     .proyectos-section.reveal-active .proyectos-pin .container {
         transform: none;
         opacity: 1;
+    }
+    /* El botón vuelve al flujo normal (en desktop va anclado abajo) */
+    .proyectos-section.reveal-active .proyectos-pin > .proy-outro {
+        position: static;
+        margin-top: 2rem;
+    }
+    /* Restaura la separación entre tarjetas (la compactación del pinned la
+       quitaba; en móvil van apiladas y necesitan su margen). */
+    .proyectos-section.reveal-active .proyectos-pin .reveal-card.mb-4 {
+        margin-bottom: 1.5rem !important;
     }
 }
 
@@ -1247,6 +1270,7 @@
     .proyectos-section.reveal-active .proyectos-scroll { height: auto; }
     .proyectos-section.reveal-active .proyectos-pin {
         position: static;
+        display: block;
         height: auto;
         overflow: visible;
         padding: 4rem 0;
@@ -1257,5 +1281,9 @@
     .proyectos-section.reveal-active .proyectos-pin .container {
         transform: none;
         opacity: 1;
+    }
+    .proyectos-section.reveal-active .proyectos-pin > .proy-outro {
+        position: static;
+        margin-top: 2rem;
     }
 }

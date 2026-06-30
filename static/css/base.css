@@ -41,6 +41,10 @@ body {
     color: var(--text-color);
     background-color: var(--bg-color);
     padding-top: var(--navbar-height);
+    /* Evita el scroll horizontal en móvil sin romper position:sticky.
+       'clip' (a diferencia de 'hidden') no crea un contenedor de scroll,
+       así el efecto pinned de proyectos sigue funcionando en desktop. */
+    overflow-x: clip;
 }
 
 /* ===== Overrides tema oscuro para clases de Bootstrap ===== */

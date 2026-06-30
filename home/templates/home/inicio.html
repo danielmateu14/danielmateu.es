@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Daniel Mateu Sánchez - Desarrollador Web Full Stack Junior{% endblock %}
+{% block title %}Daniel Mateu - Desarrollador Full Stack | Python & Django{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'home/css/inicio.css' %}">
@@ -28,20 +28,23 @@
                     <h1 class="hero-title" id="hero-title-typing">
                         Hola, soy <span style="color: #ef4444;" id="name-span"></span>
                     </h1>
-                    <h2 class="hero-subtitle">Desarrollador Web Full Stack Junior</h2>
+                    <h2 class="hero-subtitle">Desarrollador Full Stack · Python &amp; Django</h2>
                     <p class="hero-description">
-                        Apasionado por construir soluciones digitales modernas y eficientes. Especializado en
-                        <strong>Django</strong>, <strong>Django REST Framework</strong> y <strong>JavaScript</strong>,
-                        con un enfoque en diseño responsivo mediante <strong>Bootstrap</strong>. Comprometido con la
-                        calidad del código, el aprendizaje continuo y la creación de experiencias web impactantes.
+                        Especializado en <strong>Python</strong>, <strong>Django</strong> y
+                        <strong>Django REST Framework</strong>, construyo software de gestión a medida que
+                        <strong>digitaliza y automatiza</strong> los procesos internos de las empresas:
+                        <strong>integración de APIs</strong> de terceros, <strong>automatización (RPA)</strong>
+                        y funcionalidades con <strong>IA</strong>. Entorno internacional, mayoritariamente
+                        con clientes franceses.
                     </p>
 
                     <div class="hero-technologies">
-                        <span class="tech-badge">JavaScript</span>
+                        <span class="tech-badge">Python</span>
                         <span class="tech-badge">Django</span>
                         <span class="tech-badge">Django REST</span>
-                        <span class="tech-badge">Bootstrap</span>
-                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">PostgreSQL</span>
+                        <span class="tech-badge">RPA</span>
+                        <span class="tech-badge">IA</span>
                     </div>
                     <div class="hero-buttons">
                         <a href="{% url 'proyectos:lista_proyectos' %}" class="btn btn-custom-primary me-3">
@@ -56,7 +59,7 @@
             <div class="col-lg-5 order-1 order-lg-2">
                 <div class="hero-image animate-on-scroll">
                     <div class="image-container">
-                        <img src="{% static 'imagenes/perfil.jpeg' %}" alt="Daniel Mateu Sánchez"
+                        <img src="{% static 'imagenes/perfil.jpeg' %}" alt="Daniel Mateu"
                             class="img-fluid w-100 h-100">
                     </div>
                 </div>
@@ -87,20 +90,30 @@
                 <div class="about-content animate-on-scroll">
                     <h3 class="mb-4 text-center">Mi historia</h3>
                     <p class="lead mb-4">
-                        Soy Daniel Mateu Sánchez, desarrollador web formado en Desarrollo de Aplicaciones Web (DAW),
-                        donde adquirí una base sólida en lenguajes como PHP, Java y JavaScript, así como en tecnologías
-                        esenciales como HTML5 y CSS3.
+                        Soy Daniel Mateu, desarrollador <strong>full stack</strong> especializado en
+                        <strong>Python</strong> y <strong>Django / Django REST Framework</strong>, centrado en
+                        construir software de gestión a medida que digitaliza y automatiza los procesos internos
+                        de las empresas.
                     </p>
                     <p class="mb-4">
-                        Actualmente trabajo en <strong>Redarquía Digital</strong>, donde desarrollo soluciones digitales
-                        utilizando <strong>Django</strong>, <strong>Django REST Framework</strong> y
-                        <strong>Bootstrap</strong>, aplicando metodologías ágiles y buenas prácticas de desarrollo. Mi
-                        enfoque se centra en crear aplicaciones web limpias, escalables y orientadas a la experiencia de
-                        usuario.
+                        Mi día a día va más allá de "montar una web": diseño y desarrollo plataformas que conectan
+                        sistemas que antes funcionaban aislados mediante <strong>integración de APIs</strong> de
+                        terceros (e-commerce, ERP y contabilidad, logística, telefonía, email y SMS, calendarios…),
+                        automatizo tareas repetitivas con <strong>RPA</strong> cuando no hay API disponible, y
+                        desarrollo funcionalidades con <strong>IA</strong> y agentes para apoyar la operativa diaria.
+                        Trabajo en un entorno internacional: cerca del <strong>90% de los proyectos son para
+                        empresas francesas</strong>.
                     </p>
                     <p class="mb-4">
-                        Me apasiona aprender constantemente y mantenerme al día con las últimas tecnologías del sector,
-                        disfrutando cada nuevo reto como una oportunidad de crecimiento profesional.
+                        Mi stack habitual es <strong>Python</strong>, <strong>Django</strong>,
+                        <strong>Django REST Framework</strong>, <strong>PostgreSQL</strong> y
+                        <strong>JavaScript</strong>, con despliegue en producción (Hetzner, Railway, Render). Uso a
+                        diario herramientas de IA como <strong>Claude</strong> y <strong>Claude Code</strong> para
+                        acelerar el desarrollo, el modelado de datos y la depuración.
+                    </p>
+                    <p class="mb-4">
+                        <strong>Idiomas:</strong> español (nativo), catalán (nativo), inglés (B1) y francés
+                        (A2, en formación).
                     </p>
 
 
@@ -108,16 +121,17 @@
                     <div class="tech-stack">
                         <h5 class="mb-3">Tecnologías principales:</h5>
                         <div class="tech-badges">
-                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">JavaScript</span>
                             <span class="badge me-2 mb-2" style="background-color: #ef4444;">Python</span>
                             <span class="badge me-2 mb-2" style="background-color: #ef4444;">Django</span>
                             <span class="badge me-2 mb-2" style="background-color: #ef4444;">Django REST</span>
-                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Bootstrap</span>
-                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Java</span>
                             <span class="badge me-2 mb-2" style="background-color: #ef4444;">PostgreSQL</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">JavaScript</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">RPA</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">IA / Agentes</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Bootstrap</span>
+                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">CSS</span>
                             <span class="badge me-2 mb-2" style="background-color: #ef4444;">SQLite</span>
                             <span class="badge me-2 mb-2" style="background-color: #ef4444;">Git</span>
-                            <span class="badge me-2 mb-2" style="background-color: #ef4444;">Fork</span>
 
                         </div>
                     </div>
@@ -139,27 +153,58 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h5 class="card-title mb-0">Desarrollador Full Stack Junior</h5>
-                                    <span class="badge" style="background-color: #ef4444;">2025 - Presente</span>
+                                    <h5 class="card-title mb-0">Desarrollador Full Stack</h5>
+                                    <span class="badge" style="background-color: #ef4444;">sept. 2025 - Actualidad</span>
                                 </div>
-                                <h6 class="text-muted mb-3">Redarquía Digital</h6>
+                                <h6 class="text-muted mb-3">Koralya · Jornada completa · En remoto</h6>
                                 <p class="card-text">
-                                    Participación activa en el desarrollo de plataformas web utilizando
-                                    <strong>Django</strong> como tecnología principal. Diseño e implementación de
-                                    <strong>APIs RESTful</strong> con <strong>Django REST Framework</strong>, y
-                                    desarrollo de interfaces adaptativas mediante <strong>Bootstrap</strong>. Gestión de
-                                    bases de datos relacionales con <strong>PostgreSQL</strong> y control de versiones
-                                    en entornos colaborativos mediante <strong>Git</strong>. Trabajo en equipo siguiendo
-                                    metodologías ágiles y enfoque en buenas prácticas de desarrollo.
+                                    Desarrollo de plataformas web internas de gestión empresarial a medida para
+                                    clientes de distintos sectores, orientadas a digitalizar y automatizar sus procesos:
+                                </p>
+                                <ul class="card-text">
+                                    <li>Backend con <strong>Python</strong>, <strong>Django</strong> y
+                                        <strong>Django REST Framework</strong>; base de datos <strong>PostgreSQL</strong>;
+                                        despliegue en producción (Hetzner / Railway / Render).</li>
+                                    <li>Integración de múltiples <strong>APIs de terceros</strong> (e-commerce, ERP y
+                                        contabilidad, mensajería y logística, telefonía, email y SMS, calendarios) para
+                                        sincronizar datos y unificar sistemas dispersos.</li>
+                                    <li>Automatización de procesos mediante <strong>RPA</strong> cuando no existe API
+                                        disponible, eliminando tareas manuales repetitivas.</li>
+                                    <li>Desarrollo de funcionalidades con <strong>IA</strong> (agentes/asistentes) para
+                                        generación de contenido y apoyo a la operativa del cliente.</li>
+                                </ul>
+                                <div class="experience-tech">
+                                    <small class="text-muted">
+                                        <strong>Tecnologías:</strong> Python, Django, Django REST Framework, PostgreSQL,
+                                        JavaScript, RPA, IA, Git
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experiencia anterior -->
+                    <div class="timeline-content">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title mb-0">Full Stack Developer (Prácticas)</h5>
+                                    <span class="badge" style="background-color: #ef4444;">feb. 2025 - sept. 2025</span>
+                                </div>
+                                <h6 class="text-muted mb-3">Redarquía Digital · Jornada completa · Híbrido</h6>
+                                <p class="card-text">
+                                    Primer contacto profesional con el desarrollo full stack: <strong>Django</strong>,
+                                    <strong>Django REST Framework</strong>, <strong>JavaScript</strong> y primeras
+                                    automatizaciones con <strong>RPA</strong>. La base sobre la que consolidé mi
+                                    especialización en backend e integración de sistemas.
                                 </p>
                                 <div class="experience-tech">
                                     <small class="text-muted">
                                         <strong>Tecnologías:</strong> Django, Django REST Framework, JavaScript,
-                                        Bootstrap, PostgreSQL, Git
+                                        PostgreSQL, RPA, Git
                                     </small>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -310,21 +355,50 @@
 <!-- Spline viewer (web component vanilla, equivalente a @splinetool/react-spline) -->
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"></script>
 <script>
-    // Oculta el logo "Built with Spline" (vive dentro del shadow DOM del componente)
-    (function removeSplineLogo() {
+    // Oculta el logo "Built with Spline" (vive en el shadow DOM del componente).
+    // Método robusto: INYECTAMOS una <style> dentro del shadow root que lo oculta
+    // con !important. Así persiste aunque Spline vuelva a mostrarlo cambiando su
+    // estilo inline (un display:block inline SIN !important pierde frente a nuestra
+    // regla !important). No lo eliminamos del DOM (eso hacía petar a Spline: null).
+    (function hideSplineLogo() {
+        const CSS = '#logo, a[href*="spline.design"], [class*="logo"] {' +
+            'display:none !important; opacity:0 !important; visibility:hidden !important;' +
+            'pointer-events:none !important;}';
+
+        function apply(root) {
+            if (!root) return;
+            if (!root.__logoStyled) {
+                const s = document.createElement('style');
+                s.textContent = CSS;
+                root.appendChild(s);
+                root.__logoStyled = true;
+            }
+            // refuerzo inline inmediato
+            root.querySelectorAll('#logo, a[href*="spline.design"]').forEach(function (l) {
+                l.style.setProperty('display', 'none', 'important');
+            });
+        }
+
         let intentos = 0;
         const timer = setInterval(function () {
-            let encontrado = false;
-            document.querySelectorAll('spline-viewer').forEach(function (viewer) {
-                const logo = viewer.shadowRoot && viewer.shadowRoot.querySelector('#logo');
-                if (logo) {
-                    logo.remove();
-                    encontrado = true;
+            const viewers = document.querySelectorAll('spline-viewer');
+            let pendientes = false;
+            viewers.forEach(function (viewer) {
+                if (viewer.shadowRoot) {
+                    apply(viewer.shadowRoot);
+                    if (!viewer.__logoObserved) {
+                        // re-aplica si Spline re-inserta el logo tras cargar
+                        new MutationObserver(function () { apply(viewer.shadowRoot); })
+                            .observe(viewer.shadowRoot, { childList: true, subtree: true });
+                        viewer.__logoObserved = true;
+                    }
+                } else {
+                    pendientes = true;
                 }
             });
             intentos++;
-            if (encontrado || intentos > 40) clearInterval(timer);
-        }, 250);
+            if ((viewers.length && !pendientes) || intentos > 120) clearInterval(timer);
+        }, 200);
     })();
 </script>
 <script src="{% static 'home/js/inicio.js' %}"></script>
