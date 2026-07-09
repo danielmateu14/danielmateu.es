@@ -1,26 +1,38 @@
-# Servicio systemd para gunicorn (danielmateu.es)
+# Servicio systemd para gunicorn (danielmateu.es) - Hetzner / Ubuntu 24.04
 # Copiar a: /etc/systemd/system/gunicorn.service
-# Luego:    sudo systemctl daemon-reload
-#           sudo systemctl enable --now gunicorn
-#           sudo systemctl status gunicorn
+# Luego:    systemctl daemon-reload && systemctl enable --now gunicorn
 
 [Unit]
 Description=Gunicorn (Django) - danielmateu.es
+Requires=postgresql.service
 After=network.target postgresql.service
 
 [Service]
-User=ubuntu
+User=www-data
 Group=www-data
-WorkingDirectory=/home/ubuntu/danielmateu.es
-EnvironmentFile=/home/ubuntu/danielmateu.es/.env
-# El --bind 127.0.0.1:8000 (CLI) tiene prioridad sobre gunicorn_config.py:
-# así gunicorn solo escucha en local y Nginx hace de puerta de entrada.
-ExecStart=/home/ubuntu/danielmateu.es/venv/bin/gunicorn \
-    --config /home/ubuntu/danielmateu.es/gunicorn_config.py \
+WorkingDirectory=/var/www/danielmateu.es
+EnvironmentFile=/var/www/danielmateu.es/.env
+
+# Los flags de la CLI ganan a gunicorn_config.py (que esta tuneado para
+# Railway: 1 worker y $PORT). Aqui gunicorn solo escucha en local, Nginx
+# hace de puerta de entrada, y 3 workers para 2 vCPU / 4 GB.
+ExecStart=/var/www/danielmateu.es/venv/bin/gunicorn \
+    --config /var/www/danielmateu.es/gunicorn_config.py \
     --bind 127.0.0.1:8000 \
+    --workers 3 \
+    --threads 2 \
     portfolio.wsgi:application
+
+ExecReload=/bin/kill -s HUP $MAINPID
 Restart=always
 RestartSec=3
+
+# El proceso solo necesita escribir en media/ (imagenes subidas por el admin).
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/www/danielmateu.es/media
 
 [Install]
 WantedBy=multi-user.target

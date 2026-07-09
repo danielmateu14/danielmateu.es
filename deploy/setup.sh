@@ -1,101 +1,141 @@
 #!/usr/bin/env bash
 # =====================================================================
-# Instalación automática de danielmateu.es en una VM Ubuntu 22.04
-# (Oracle Cloud Always Free).
+# Instalación automática de danielmateu.es en un servidor Hetzner Cloud
+# (Ubuntu 24.04 LTS, acceso como root).
 #
-# USO (dentro de la VM, como usuario 'ubuntu'):
-#   1) git clone https://github.com/danielmateu14/danielmateu.es.git
-#   2) cd danielmateu.es
-#   3) edita las VARIABLES de abajo (sobre todo DB_PASS y EMAIL)
-#   4) bash deploy/setup.sh
+# USO (dentro del servidor, como root):
+#   mkdir -p /var/www && cd /var/www
+#   git clone https://github.com/danielmateu14/danielmateu.es.git
+#   cd danielmateu.es
+#   EMAIL=tu@email.com bash deploy/setup.sh
 #
 # Es seguro re-ejecutarlo: salta lo que ya esté hecho.
 # =====================================================================
 set -euo pipefail
 
-# ----------------------- VARIABLES A REVISAR -------------------------
-DOMAIN="danielmateu.es"
-DOMAIN_WWW="www.danielmateu.es"
-EMAIL="TU_EMAIL@ejemplo.com"        # para el certificado HTTPS (Let's Encrypt)
+DOMAIN="${DOMAIN:-danielmateu.es}"
+DOMAIN_WWW="${DOMAIN_WWW:-www.danielmateu.es}"
+EMAIL="${EMAIL:?Define EMAIL=tu@email.com para los avisos de caducidad del certificado}"
 
-DB_NAME="danielmateu"
-DB_USER="danieldb"
-DB_PASS="CAMBIA_ESTA_PASSWORD"      # contraseña del Postgres local
+DB_NAME="${DB_NAME:-danielmateu}"
+DB_USER="${DB_USER:-danieldb}"
 
-APP_DIR="/home/ubuntu/danielmateu.es"
-# ---------------------------------------------------------------------
+APP_DIR="/var/www/danielmateu.es"
+APP_USER="www-data"
 
-echo ">>> [1/8] Paquetes del sistema..."
-sudo apt update
-sudo apt install -y python3-venv python3-pip git nginx \
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Ejecutalo como root." >&2
+    exit 1
+fi
+
+echo ">>> [1/9] Paquetes del sistema..."
+export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y python3-venv python3-dev git nginx \
     postgresql postgresql-contrib libpq-dev build-essential \
-    libjpeg-dev zlib1g-dev certbot python3-certbot-nginx
+    libjpeg-dev zlib1g-dev certbot python3-certbot-nginx \
+    fail2ban unattended-upgrades
 
-echo ">>> [2/8] Base de datos PostgreSQL..."
-# Crea el rol y la BD solo si no existen.
-sudo -u postgres psql <<SQL
+echo ">>> [2/9] Swap de 2 GB (el servidor viene sin swap)..."
+if [ ! -f /swapfile ]; then
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    echo '/swapfile none swap sw 0 0' >> /etc/fstab
+    echo 'vm.swappiness=10' > /etc/sysctl.d/99-swappiness.conf
+    sysctl -p /etc/sysctl.d/99-swappiness.conf
+else
+    echo "    /swapfile ya existe."
+fi
+
+echo ">>> [3/9] PostgreSQL (rol + base de datos)..."
+# La password se genera una sola vez y se guarda fuera del repo.
+PW_FILE=/root/.danielmateu_db_password
+if [ ! -f "${PW_FILE}" ]; then
+    openssl rand -hex 24 > "${PW_FILE}"
+    chmod 600 "${PW_FILE}"
+fi
+DB_PASS="$(cat "${PW_FILE}")"
+
+sudo -u postgres psql -v ON_ERROR_STOP=1 <<SQL
 DO \$\$
 BEGIN
    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '${DB_USER}') THEN
       CREATE ROLE ${DB_USER} LOGIN PASSWORD '${DB_PASS}';
+   ELSE
+      ALTER ROLE ${DB_USER} PASSWORD '${DB_PASS}';
    END IF;
 END
 \$\$;
 SELECT 'CREATE DATABASE ${DB_NAME} OWNER ${DB_USER}'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '${DB_NAME}')\gexec
-\c ${DB_NAME}
-GRANT ALL ON SCHEMA public TO ${DB_USER};
 SQL
+sudo -u postgres psql -v ON_ERROR_STOP=1 -d "${DB_NAME}" \
+    -c "GRANT ALL ON SCHEMA public TO ${DB_USER};"
 
-echo ">>> [3/8] Entorno virtual y dependencias..."
+echo ">>> [4/9] Entorno virtual y dependencias..."
 cd "${APP_DIR}"
-python3 -m venv venv
-./venv/bin/pip install --upgrade pip
+git config --global --add safe.directory "${APP_DIR}" || true
+[ -d venv ] || python3 -m venv venv
+./venv/bin/pip install --upgrade pip wheel
 ./venv/bin/pip install -r requirements.txt
 
-echo ">>> [4/8] Archivo .env (si no existe)..."
+echo ">>> [5/9] Archivo .env..."
 if [ ! -f "${APP_DIR}/.env" ]; then
     SECRET=$(./venv/bin/python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")
+    # Comillas simples: el secreto puede llevar $ # % & ... y asi lo leen igual
+    # de bien `source` (bash) y `EnvironmentFile` (systemd).
     cat > "${APP_DIR}/.env" <<ENV
-SECRET_KEY=${SECRET}
+SECRET_KEY='${SECRET}'
 DEBUG=False
-ALLOWED_HOSTS=${DOMAIN},${DOMAIN_WWW}
-DATABASE_URL=postgres://${DB_USER}:${DB_PASS}@127.0.0.1:5432/${DB_NAME}
+ALLOWED_HOSTS='${DOMAIN},${DOMAIN_WWW}'
+DATABASE_URL='postgres://${DB_USER}:${DB_PASS}@127.0.0.1:5432/${DB_NAME}'
 ENV
     echo "    .env creado con SECRET_KEY nueva."
 else
     echo "    .env ya existe, no se toca."
 fi
+chown root:${APP_USER} "${APP_DIR}/.env"
+chmod 640 "${APP_DIR}/.env"
 
-echo ">>> [5/8] Migraciones, estáticos y carpeta media..."
+echo ">>> [6/9] Migraciones, estaticos y permisos..."
 set -a; source "${APP_DIR}/.env"; set +a
+mkdir -p "${APP_DIR}/media"
 ./venv/bin/python manage.py migrate --noinput
 ./venv/bin/python manage.py collectstatic --noinput
-mkdir -p "${APP_DIR}/media"
+# Nginx sirve static/ y media/; gunicorn escribe en media/ al subir imagenes.
+chown -R ${APP_USER}:${APP_USER} "${APP_DIR}/media" "${APP_DIR}/staticfiles"
 
-echo ">>> [6/8] Servicio gunicorn (systemd)..."
-sudo cp "${APP_DIR}/deploy/gunicorn.service" /etc/systemd/system/gunicorn.service
-sudo systemctl daemon-reload
-sudo systemctl enable --now gunicorn
-sudo systemctl restart gunicorn
+echo ">>> [7/9] Servicio gunicorn (systemd)..."
+cp "${APP_DIR}/deploy/gunicorn.service" /etc/systemd/system/gunicorn.service
+systemctl daemon-reload
+systemctl enable gunicorn
+systemctl restart gunicorn
 
-echo ">>> [7/8] Nginx..."
-sudo cp "${APP_DIR}/deploy/nginx-danielmateu.conf" /etc/nginx/sites-available/danielmateu
-sudo ln -sf /etc/nginx/sites-available/danielmateu /etc/nginx/sites-enabled/danielmateu
-sudo rm -f /etc/nginx/sites-enabled/default
-sudo usermod -aG ubuntu www-data || true
-sudo chmod 750 /home/ubuntu
-sudo nginx -t && sudo systemctl reload nginx
+echo ">>> [8/9] Nginx..."
+cp "${APP_DIR}/deploy/nginx-danielmateu.conf" /etc/nginx/sites-available/danielmateu
+ln -sf /etc/nginx/sites-available/danielmateu /etc/nginx/sites-enabled/danielmateu
+rm -f /etc/nginx/sites-enabled/default
+nginx -t && systemctl reload nginx
 
-echo ">>> [8/8] HTTPS con Let's Encrypt..."
-echo "    (Asegúrate de que el DNS de ${DOMAIN} ya apunta a esta VM)"
-sudo certbot --nginx -d "${DOMAIN}" -d "${DOMAIN_WWW}" \
-    --non-interactive --agree-tos -m "${EMAIL}" --redirect || \
-    echo "    !! Certbot falló (¿DNS aún sin propagar?). Reintenta luego: sudo certbot --nginx -d ${DOMAIN} -d ${DOMAIN_WWW}"
+echo ">>> [9/9] HTTPS con Let's Encrypt..."
+echo "    (El DNS de ${DOMAIN} debe apuntar YA a la IP de este servidor)"
+if certbot --nginx -d "${DOMAIN}" -d "${DOMAIN_WWW}" \
+        --non-interactive --agree-tos -m "${EMAIL}" --redirect; then
+    echo "    Certificado instalado."
+else
+    echo ""
+    echo "    !! Certbot fallo (lo tipico: el DNS aun no ha propagado)."
+    echo "    !! OJO: hasta que esto funcione el sitio NO carga, porque con"
+    echo "    !! DEBUG=False Django redirige a https:// y todavia no hay 443."
+    echo "    !! Reintenta: certbot --nginx -d ${DOMAIN} -d ${DOMAIN_WWW} --redirect"
+fi
 
 echo ""
 echo "=============================================="
 echo " LISTO. Crea el superusuario del admin con:"
-echo "   cd ${APP_DIR} && ./venv/bin/python manage.py createsuperuser"
+echo "   cd ${APP_DIR} && set -a && source .env && set +a \\"
+echo "     && ./venv/bin/python manage.py createsuperuser"
 echo " Visita: https://${DOMAIN}"
 echo "=============================================="
