@@ -549,28 +549,17 @@ html.lenis body {
         padding: 0.5rem 0.7rem;
     }
     
-    /* Menú desplegable con efecto scale rápido */
+    /* Panel del menu. La animacion vive abajo, en el bloque de 991.98px.
+       Aqui habia un efecto scale propio que peleaba con ella, y sobre todo un
+       "height: auto !important" en .collapsing que anulaba la animacion de
+       altura de Bootstrap: el panel aparecia de golpe, a tamano completo, y
+       solo despues arrancaba el fundido. Ese era el parpadeo. */
     .navbar-collapse {
         background: rgba(33, 37, 41, 0.95) !important;
         margin-top: 1rem !important;
         border-radius: 8px !important;
         padding: 1rem !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        transform: scale(0.95);
-        transform-origin: top center;
-        transition: transform 0.2s ease !important;
-    }
-    
-    /* Cuando está visible */
-    .navbar-collapse.show {
-        transform: scale(1);
-    }
-    
-    /* Estado de transición */
-    .navbar-collapse.collapsing {
-        transform: scale(0.98);
-        transition: transform 0.2s ease !important;
-        height: auto !important;
     }
 
     .navbar-nav .nav-link {
@@ -724,8 +713,16 @@ html {
         transform-origin: top center;
     }
 
+    /* Bootstrap abre en dos fases: primero .collapsing (crece la altura, con el
+       contenido ya pintado) y solo al final anade .show. Si el panel se ve
+       durante la primera fase, al llegar .show la animacion lo devuelve a
+       opacidad 0 y se ve un parpadeo. Se mantiene invisible mientras crece. */
+    .navbar-collapse.collapsing {
+        opacity: 0;
+    }
+
     .navbar-collapse.show {
-        animation: menuAbrir 0.38s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+        animation: menuAbrir 0.3s cubic-bezier(0.2, 0.9, 0.25, 1) both;
     }
 
     @keyframes menuAbrir {
@@ -742,12 +739,20 @@ html {
     }
 
     /* Bootstrap quita .show nada mas empezar a cerrar, asi que la salida no se
-       puede animar con el mismo selector: base.js marca .menu-closing. */
-    .navbar.menu-closing .navbar-collapse {
+       puede animar con el mismo selector: base.js marca .menu-closing.
+       Al cerrar, el panel lleva .collapsing (opacidad 0): una animacion sin
+       "from" explicito partiria de ahi y no se veria salir. */
+    .navbar.menu-closing .navbar-collapse,
+    .navbar.menu-closing .navbar-collapse.collapsing {
         animation: menuCerrar 0.22s ease-in both;
     }
 
     @keyframes menuCerrar {
+        from {
+            opacity: 1;
+            transform: none;
+            filter: none;
+        }
         to {
             opacity: 0;
             transform: perspective(700px) rotateX(-8deg) translateY(-6px);
