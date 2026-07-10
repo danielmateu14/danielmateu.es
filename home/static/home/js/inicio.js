@@ -379,6 +379,57 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     // ============================================================
+    // Que el robot siga el dedo/ratón por TODO el hero.
+    //
+    // En móvil la escena se escala (--robot-escala) para que el robot no salga
+    // gigante, y `transform: scale()` encoge también la CAJA del elemento, no
+    // solo lo que se pinta. El canvas deja de estar debajo del texto y de la
+    // foto, así que Spline no recibe el puntero ahí y la cabeza se queda quieta.
+    //
+    // No se arregla con CSS: en Spline el tamaño del robot es proporcional a la
+    // altura del canvas, así que agrandarlo para cubrir el hero lo devuelve a su
+    // tamaño original. Lo que hacemos es reenviar el evento al canvas.
+    // ============================================================
+    (function splineSigueElPuntero() {
+        const hero = document.querySelector('.hero-section');
+        const bg = document.querySelector('.hero-3d-bg');
+        const viewer = bg && bg.querySelector('spline-viewer');
+        if (!hero || !viewer || !window.PointerEvent) return;
+
+        let destino = null;
+
+        // El canvas vive en el shadow DOM del componente y no existe hasta que
+        // Spline termina de montar la escena.
+        (function esperarCanvas(intentos) {
+            destino = viewer.shadowRoot && viewer.shadowRoot.querySelector('canvas');
+            if (!destino && intentos > 0) setTimeout(() => esperarCanvas(intentos - 1), 250);
+        })(40); // ~10 s de margen; si no aparece, no se reenvía nada y no pasa nada
+
+        // pointermove cubre el ratón y el arrastre del dedo; pointerdown, el
+        // toque suelto, que en móvil puede no llegar a generar ningún move.
+        ['pointermove', 'pointerdown'].forEach((tipo) => {
+            hero.addEventListener(tipo, (e) => {
+                if (!destino) return;
+                // En escritorio el canvas ocupa el hero entero y ya recibe el
+                // evento directamente (el .container es pointer-events:none).
+                // Reenviarlo seria duplicarlo.
+                if (e.target === viewer || viewer.contains(e.target)) return;
+
+                destino.dispatchEvent(new PointerEvent(tipo, {
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                    pointerId: e.pointerId,
+                    pointerType: e.pointerType,
+                    isPrimary: e.isPrimary,
+                    buttons: e.buttons,
+                    bubbles: false,      // que no vuelva a subir hasta el hero
+                    cancelable: false,
+                }));
+            }, { passive: true });
+        });
+    })();
+
+    // ============================================================
     // Sección "Mis Proyectos" — efecto PINNED scrollytelling.
     // Mientras .proyectos-pin está pegado (sticky), medimos el progreso
     // (0 → 1) del recorrido y, por RENDIMIENTO, escribimos las transforms
