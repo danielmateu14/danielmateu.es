@@ -441,6 +441,12 @@
     padding-left: 1rem;
 }
 
+/* Las .card de Bootstrap no traen margen, asi que las tarjetas de experiencia
+   se tocaban. Solo entre ellas: el ultimo no arrastra hueco al pie. */
+.timeline-content + .timeline-content {
+    margin-top: 1.25rem;
+}
+
 .experience-tech {
     margin-top: 1rem;
     padding-top: 1rem;

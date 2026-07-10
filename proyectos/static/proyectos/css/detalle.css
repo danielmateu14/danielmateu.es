@@ -85,7 +85,10 @@
     color: white;
     position: relative;
     overflow: hidden;
-    padding: 6rem 0 4rem 0;
+    /* El body ya reserva la altura de la navbar fija (--navbar-height): estos
+       6rem se sumaban a ella y dejaban un vacio enorme sobre "Volver a
+       Proyectos", que es un enlace pequeno y no un titular. */
+    padding: 2.5rem 0 4rem 0;
     min-height: auto;
     border-bottom: 1px solid #2a2a2a;
 }
@@ -1228,7 +1231,7 @@
 
     /* Hero mobile small */
     .proyecto-detalle-hero-optimizado {
-        padding: 7rem 0 3rem 0;
+        padding: 1.5rem 0 3rem 0;
     }
     
     .breadcrumb-custom {
