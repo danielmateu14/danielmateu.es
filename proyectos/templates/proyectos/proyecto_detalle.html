@@ -21,7 +21,9 @@
                 <div class="proyecto-info animate-on-scroll">
                     
                     <h1 class="proyecto-titulo-detalle mb-3">{{ proyecto.titulo }}</h1>
-                    <p class="proyecto-descripcion-detalle mb-4">{{ proyecto.descripcion }}</p>
+                    {# Resumen. El texto completo va mas abajo, en "Vision y Desarrollo":
+                       antes se pintaba entero en los dos sitios. #}
+                    <p class="proyecto-descripcion-detalle mb-4">{{ proyecto.descripcion|truncatewords:35 }}</p>
                     
                     <!-- Tecnologías integradas -->
                     {% if proyecto.tecnologias.all %}
@@ -32,8 +34,16 @@
                         <div class="tech-badges-inline">
                             {% for tecnologia in proyecto.tecnologias.all %}
                             <span class="tech-badge-inline" data-tooltip="{{ tecnologia.nombre }}">
-                                {% if tecnologia.nombre|lower == 'django' %}
+                                {% if tecnologia.nombre|lower == 'django' or tecnologia.nombre|lower == 'python' %}
                                     <i class="fab fa-python"></i>
+                                {% elif tecnologia.nombre|lower == 'sqlite' %}
+                                    <i class="fas fa-database"></i>
+                                {% elif tecnologia.nombre|lower == 'nginx' or tecnologia.nombre|lower == 'gunicorn' %}
+                                    <i class="fas fa-server"></i>
+                                {% elif tecnologia.nombre|lower == 'reportlab' %}
+                                    <i class="fas fa-file-pdf"></i>
+                                {% elif tecnologia.nombre|lower == 'docker' %}
+                                    <i class="fab fa-docker"></i>
                                 {% elif tecnologia.nombre|lower == 'javascript' %}
                                     <i class="fab fa-js-square"></i>
                                 {% elif tecnologia.nombre|lower == 'html' or tecnologia.nombre|lower == 'html5' %}
@@ -120,9 +130,11 @@
         <div class="contenido-principal-amplio">
             <div class="descripcion-amplia animate-on-scroll">
                 <h3>Visión y Desarrollo</h3>
-                <p class="descripcion-texto">
-                    {{ proyecto.descripcion }}
-                </p>
+                {# linebreaks respeta los parrafos del admin; sin el, el texto salia
+                   como un unico bloque corrido. Ya genera sus propios <p>. #}
+                <div class="descripcion-texto">
+                    {{ proyecto.descripcion|linebreaks }}
+                </div>
                 
                 <ul class="caracteristicas-lista">
                     <li>

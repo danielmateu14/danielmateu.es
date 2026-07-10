@@ -41,7 +41,10 @@
                     </div>
                     <div class="proyecto-content">
                         <h5 class="proyecto-titulo">{{ proyecto.titulo }}</h5>
-                        <p class="proyecto-descripcion">{{ proyecto.descripcion_corta }}</p>
+                        {# descripcion_corta no existe: ni campo ni propiedad. Django
+                           resolvia la variable a vacio sin avisar, asi que el listado
+                           nunca llego a mostrar descripcion. #}
+                        <p class="proyecto-descripcion">{{ proyecto.descripcion|truncatewords:20 }}</p>
 
                         <div class="proyecto-tech">
                             {% for tecnologia in proyecto.tecnologias.all %}
