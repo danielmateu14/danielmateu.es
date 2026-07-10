@@ -1113,15 +1113,21 @@
 /* ============================================================
    MÓVIL: el robot manda arriba.
    El robot ocupa la franja superior y el contenido (foto + texto)
-   arranca por debajo, para que se le vea la cabeza.
+   arranca por debajo, para que se le vea la cabeza entera.
 
-   Para subir o bajar el contenido, toca SOLO --robot-espacio.
-   En escritorio no aplica nada de esto.
+   Tres mandos, independientes entre si:
+     --robot-escala   cuanto se encoge la escena (1 = tamano original)
+     --robot-subida   cuanto se sube, para comerse el hueco negro que la
+                      escena deja por encima del robot
+     --robot-espacio  donde empieza la foto de perfil
+
+   Nada de esto aplica en escritorio.
    ============================================================ */
 @media (max-width: 991.98px) {
     .hero-section {
-        /* altura reservada al robot antes de que empiece la foto */
-        --robot-espacio: 34vh;
+        --robot-escala: 0.62;
+        --robot-subida: 7vh;
+        --robot-espacio: 24vh;
 
         /* sin esto el contenido se centra vertical y vuelve a taparlo */
         align-items: flex-start;
@@ -1136,9 +1142,13 @@
         justify-content: flex-start;
     }
 
-    /* Antes estaba al 55%: se perdía entre el overlay y el fondo negro. */
     .hero-3d-bg {
+        /* Antes estaba al 55%: se perdia entre el overlay y el fondo negro. */
         opacity: 0.9;
+        /* Se encoge desde arriba, no desde el centro: asi al reducirla el
+           robot no se va hacia el medio de la pantalla. */
+        transform-origin: top center;
+        transform: translateY(calc(var(--robot-subida) * -1)) scale(var(--robot-escala));
     }
 
     /* La franja del robot queda casi limpia y el oscurecido entra justo donde
@@ -1147,16 +1157,8 @@
         background: linear-gradient(180deg,
             rgba(10, 10, 10, 0.10) 0%,
             rgba(10, 10, 10, 0.25) calc(var(--robot-espacio) * 0.6),
-            rgba(10, 10, 10, 0.85) calc(var(--robot-espacio) + 6rem),
+            rgba(10, 10, 10, 0.85) calc(var(--robot-espacio) + 5rem),
             rgba(10, 10, 10, 0.95) 100%);
-    }
-}
-
-/* Antes se bajaba la escena 20vh para meter la cabeza del robot en la zona del
-   texto. Ahora el robot va arriba del todo y es el contenido el que baja. */
-@media (max-width: 768px) {
-    .hero-3d-bg {
-        transform: none;
     }
 }
 
