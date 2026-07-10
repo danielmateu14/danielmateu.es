@@ -130,34 +130,10 @@
         <div class="contenido-principal-amplio">
             <div class="descripcion-amplia animate-on-scroll">
                 <h3>Visión y Desarrollo</h3>
-                {# linebreaks respeta los parrafos del admin; sin el, el texto salia
-                   como un unico bloque corrido. Ya genera sus propios <p>. #}
+                {# linebreaks respeta los parrafos del admin y genera sus propios <p>. #}
                 <div class="descripcion-texto">
                     {{ proyecto.descripcion|linebreaks }}
                 </div>
-                
-                <ul class="caracteristicas-lista">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        Arquitectura escalable y mantenible
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        Diseño responsivo y accesible
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        Optimización de rendimiento
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        Integración de APIs modernas
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        Seguridad implementada desde el diseño
-                    </li>
-                </ul>
             </div>
 
             <!-- Slideshow de imágenes del proyecto -->
@@ -207,6 +183,29 @@
                     </div>
                 </div>
                 {% endif %}
+
+                <ul class="caracteristicas-lista">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Arquitectura escalable y mantenible
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Diseño responsivo y accesible
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Optimización de rendimiento
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Integración de APIs modernas
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        Seguridad implementada desde el diseño
+                    </li>
+                </ul>
             </div>
         </div>
 
