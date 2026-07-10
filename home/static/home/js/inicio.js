@@ -405,8 +405,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!destino && intentos > 0) setTimeout(() => esperarCanvas(intentos - 1), 250);
         })(40); // ~10 s de margen; si no aparece, no se reenvía nada y no pasa nada
 
-        // pointermove cubre el ratón y el arrastre del dedo; pointerdown, el
-        // toque suelto, que en móvil puede no llegar a generar ningún move.
+        // Escuchamos pointerdown (el toque suelto de movil, que puede no generar
+        // ningun move) y pointermove (raton y arrastre), pero al canvas SIEMPRE
+        // le mandamos un pointermove.
+        //
+        // Reenviar un pointerdown metia a Spline en modo arrastre: se quedaba
+        // esperando un pointerup sobre el canvas que nunca llegaba (y captura el
+        // puntero), asi que tras el primer toque dejaba de responder. Un
+        // pointermove con buttons:0 solo mueve la mirada, no arrastra nada.
         ['pointermove', 'pointerdown'].forEach((tipo) => {
             hero.addEventListener(tipo, (e) => {
                 if (!destino) return;
@@ -415,13 +421,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reenviarlo seria duplicarlo.
                 if (e.target === viewer || viewer.contains(e.target)) return;
 
-                destino.dispatchEvent(new PointerEvent(tipo, {
+                destino.dispatchEvent(new PointerEvent('pointermove', {
                     clientX: e.clientX,
                     clientY: e.clientY,
                     pointerId: e.pointerId,
                     pointerType: e.pointerType,
                     isPrimary: e.isPrimary,
-                    buttons: e.buttons,
+                    buttons: 0,          // sin boton pulsado: mirar, no arrastrar
                     bubbles: false,      // que no vuelva a subir hasta el hero
                     cancelable: false,
                 }));
