@@ -3,3 +3,9 @@ __pycache__/
 db.sqlite3
 *.pyc
 .env
+
+# Generados por collectstatic (deploy/update.sh los regenera en cada despliegue)
+staticfiles/
+
+# Basura de macOS
+.DS_Store
