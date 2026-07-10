@@ -1,9 +1,35 @@
+// ============================================================
+// Empezar arriba del todo, no donde lo dejaste la ultima vez.
+//
+// Por defecto el navegador usa history.scrollRestoration = 'auto' y, al volver
+// a la web, te devuelve a la posicion de tu visita anterior. En movil eso
+// dejaba la home a la altura de la foto de perfil, con el robot fuera de
+// pantalla.
+//
+// Solo se fuerza al entrar o recargar. Si vienes con el boton "atras" se
+// respeta la posicion, que es lo que uno espera al retroceder.
+//
+// Va fuera del DOMContentLoaded: cuanto antes se declare, menos posibilidad
+// tiene el navegador de restaurar el scroll antes de que lo desactivemos.
+// ============================================================
+if ('scrollRestoration' in history) {
+    const nav = performance.getEntriesByType('navigation')[0];
+    const volviendo = nav && nav.type === 'back_forward';
+
+    if (!volviendo && !window.location.hash) {
+        history.scrollRestoration = 'manual';
+        window.addEventListener('load', function () {
+            window.scrollTo(0, 0);
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     const navbar = document.querySelector('.navbar');
     const navbarToggler = document.querySelector('.navbar-toggler');
     const navbarCollapse = document.querySelector('.navbar-collapse');
-    
+
     // Navbar scroll effect con transparencia
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
