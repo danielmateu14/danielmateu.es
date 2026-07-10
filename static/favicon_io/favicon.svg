@@ -1,7 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect x="0" y="0" width="512" height="512" rx="120" ry="120" fill="#111111"/>
-  <rect x="6" y="6" width="500" height="500" rx="114" ry="114" fill="none" stroke="#ef4444" stroke-opacity="0.24" stroke-width="4"/>
-  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central"
-        font-family="Arial, Helvetica, sans-serif" font-weight="700"
-        font-size="360" fill="#ef4444">D</text>
+  <defs>
+    <linearGradient id="gris" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgb(154, 154, 160)"/>
+      <stop offset="1" stop-color="rgb(92, 92, 98)"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="112" ry="112" fill="rgb(15, 15, 16)"/>
+  <polygon points="235.4,376.4 235.4,145.9 281.8,145.9 333.4,252.6 385.0,145.9 429.7,145.9 429.7,376.4 391.9,376.4 391.9,209.6 348.9,299.0 317.9,299.0 274.9,209.6 274.9,376.4" fill="url(#gris)"/>
+  <!-- fill-rule evenodd: el segundo subcamino abre el hueco de la D -->
+  <path d="M85.7 145.9 L180.3 145.9 L254.3 219.9 L254.3 302.4 L180.3 376.4 L85.7 376.4 Z M132.2 192.4 L161.4 192.4 L207.8 238.8 L207.8 283.5 L161.4 330.0 L132.2 330.0 Z" fill="rgb(239, 68, 68)" fill-rule="evenodd"/>
 </svg>
