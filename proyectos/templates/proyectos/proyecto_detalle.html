@@ -21,8 +21,10 @@
                 <div class="proyecto-info animate-on-scroll">
                     
                     <h1 class="proyecto-titulo-detalle mb-3">{{ proyecto.titulo }}</h1>
-                    {# Resumen. El texto completo va mas abajo, en "Vision y Desarrollo":
-                       antes se pintaba entero en los dos sitios. #}
+                    {% comment %}
+                    Resumen. El texto completo va mas abajo, en "Vision y Desarrollo":
+                    antes se pintaba entero en los dos sitios.
+                    {% endcomment %}
                     <p class="proyecto-descripcion-detalle mb-4">{{ proyecto.descripcion|truncatewords:35 }}</p>
                     
                     <!-- Tecnologías integradas -->
