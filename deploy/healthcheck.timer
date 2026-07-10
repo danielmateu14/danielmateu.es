@@ -1,0 +1,12 @@
+[Unit]
+Description=Healthcheck de danielmateu.es cada 5 minutos
+
+[Timer]
+# 2 min tras arrancar: da tiempo a que gunicorn y postgres esten listos,
+# y de paso comprueba que el arranque ha ido bien.
+OnBootSec=2min
+OnUnitActiveSec=5min
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,7 @@
+[Unit]
+Description=Comprueba que danielmateu.es y la demo responden
+After=network.target nginx.service
+
+[Service]
+Type=oneshot
+ExecStart=/var/www/danielmateu.es/deploy/healthcheck.sh
