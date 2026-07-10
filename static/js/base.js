@@ -35,13 +35,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Bootstrap quita .show en cuanto empieza a cerrar, asi que la animacion
+        // de salida del panel no se puede colgar de ese selector. Marcamos el
+        // navbar mientras dura el cierre (ver .menu-closing en base.css).
+        navbarCollapse.addEventListener('hide.bs.collapse', function() {
+            navbar.classList.add('menu-closing');
+        });
+
         // Detectar cuando Bootstrap termina la animación
         navbarCollapse.addEventListener('hidden.bs.collapse', function() {
             navbar.classList.remove('menu-open');
+            navbar.classList.remove('menu-closing');
         });
-        
+
         navbarCollapse.addEventListener('shown.bs.collapse', function() {
             navbar.classList.add('menu-open');
+        });
+
+        navbarCollapse.addEventListener('show.bs.collapse', function() {
+            // Por si se vuelve a abrir antes de que termine de cerrarse.
+            navbar.classList.remove('menu-closing');
         });
     }
     
