@@ -243,3 +243,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Descripciones de las tarjetas de proyecto ([data-fill-clamp]). El CSS les
+// da todo el hueco libre de la tarjeta; aquí se cuenta cuántas líneas caben
+// enteras y se corta con "…" en la última, así nunca queda media línea.
+(function () {
+    function fillClamp() {
+        const els = document.querySelectorAll('[data-fill-clamp]');
+        // Primero se sueltan todas (para medir el hueco real tras un resize)…
+        els.forEach(el => { el.style.maxHeight = ''; el.style.webkitLineClamp = el.style.lineClamp = ''; });
+        els.forEach(el => {
+            const lh = parseFloat(getComputedStyle(el).lineHeight) || 24;
+            const lines = Math.max(1, Math.floor((el.clientHeight + 1) / lh));
+            el.style.webkitLineClamp = el.style.lineClamp = String(lines);
+            // …y la caja se ajusta a esas líneas: si no, la siguiente asoma
+            // por debajo del "…" en el sobrante del hueco.
+            el.style.maxHeight = (lines * lh) + 'px';
+        });
+    }
+    let t = null;
+    const later = () => { clearTimeout(t); t = setTimeout(fillClamp, 120); };
+    document.addEventListener('DOMContentLoaded', fillClamp);
+    window.addEventListener('load', fillClamp);
+    window.addEventListener('resize', later);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fillClamp);
+})();

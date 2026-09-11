@@ -14,9 +14,34 @@ class Proyecto(models.Model):
     url_github = models.URLField(blank=True, null=True)
     url_demo = models.URLField(blank=True, null=True)
     tecnologias = models.ManyToManyField('Tecnologia', blank=True)
+    orden = models.PositiveIntegerField(
+        default=0,
+        help_text='Posición en el listado y en la portada (menor = antes). '
+                  'La portada muestra los tres primeros.',
+    )
+
+    class Meta:
+        ordering = ['orden', '-fecha_creacion']
 
     def __str__(self):
         return self.titulo
+
+    @property
+    def resumen(self):
+        """Texto de las tarjetas: los párrafos en prosa de la descripción.
+
+        Se saltan los bloques con título en MAYÚSCULAS y las listas de
+        viñetas. Sobra texto a propósito: la tarjeta lo recorta con "…" a
+        lo que quepa (ver [data-fill-clamp] en base.js).
+        """
+        parrafos = []
+        for p in self.descripcion.strip().split('\n\n'):
+            p = p.strip()
+            primera = p.split('\n', 1)[0]
+            if not p or p.startswith('•') or (primera.isupper() and len(primera) < 80):
+                continue
+            parrafos.append(' '.join(p.split()))
+        return ' '.join(parrafos)
 
 
 class ImagenProyecto(models.Model):

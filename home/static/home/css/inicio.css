@@ -919,6 +919,8 @@
 /* Contenido de la tarjeta */
 .project-card .card-body {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card .card-title {
@@ -928,10 +930,23 @@
     color: var(--text-color);
 }
 
+/* Igual que en el listado: el texto rellena el hueco libre de la tarjeta y
+   base.js ([data-fill-clamp]) lo corta con "…" en la última línea entera. */
 .project-card .card-text {
     color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 1rem;
+    flex: 1 1 0;
+    min-height: 6.4em;   /* al menos 4 líneas */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+/* Lo que sobra del hueco (menos de una línea) va entre el texto y las
+   tecnologías: así los botones quedan alineados abajo en toda la fila. */
+.project-card .card-body .project-tech {
+    margin-top: auto;
 }
 
 .project-tech {

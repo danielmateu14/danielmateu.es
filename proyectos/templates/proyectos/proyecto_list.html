@@ -46,7 +46,7 @@
                         resolvia la variable a vacio sin avisar, asi que el listado
                         nunca llego a mostrar descripcion.
                         {% endcomment %}
-                        <p class="proyecto-descripcion">{{ proyecto.descripcion|truncatewords:20 }}</p>
+                        <p class="proyecto-descripcion" data-fill-clamp>{{ proyecto.resumen }}</p>
 
                         <div class="proyecto-tech">
                             {% for tecnologia in proyecto.tecnologias.all %}

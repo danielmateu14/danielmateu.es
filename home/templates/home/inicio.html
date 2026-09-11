@@ -253,7 +253,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ proyecto.titulo }}</h5>
-                        <p class="card-text">{{ proyecto.descripcion|truncatewords:15 }}</p>
+                        <p class="card-text" data-fill-clamp>{{ proyecto.resumen }}</p>
                         
                         {% if proyecto.tecnologias.all %}
                         <div class="project-tech mb-3">

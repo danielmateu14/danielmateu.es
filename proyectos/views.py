@@ -11,7 +11,7 @@ class ProyectoListView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        return Proyecto.objects.all().order_by('-fecha_creacion')
+        return Proyecto.objects.all().order_by('orden', '-fecha_creacion')
 
 class ProyectoDetalleView(DetailView):
     model = Proyecto

@@ -301,7 +301,21 @@
     color: #a3a3a3;
     line-height: 1.6;
     margin-bottom: 1.5rem;
-    flex-grow: 1;
+    /* Ocupa todo el hueco libre de la tarjeta. Con base 0 no estira la
+       tarjeta: la altura la marca la más alta de la fila y el texto rellena
+       lo que sobra. base.js ([data-fill-clamp]) corta con "…" en la última
+       línea que cabe entera. */
+    flex: 1 1 0;
+    min-height: 6.4em;   /* al menos 4 líneas */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+/* Lo que sobra del hueco (menos de una línea) va entre el texto y las
+   tecnologías: así el pie de las tarjetas queda alineado en toda la fila. */
+.proyecto-content .proyecto-tech {
+    margin-top: auto;
 }
 
 /* Tecnologías */
