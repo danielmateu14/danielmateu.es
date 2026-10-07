@@ -140,6 +140,26 @@ Guarda 14 dias en `/var/backups/danielmateu/`. Bajatelos de vez en cuando:
 scp -r Portfolio:/var/backups/danielmateu ./backups-portfolio
 ```
 
+### Copia completa al disco externo
+
+`backup.sh` solo cubre el portfolio. Para llevarte **todo el servidor** (todos los
+proyectos, todas las bases de datos, `/var/lib/<app>`, nginx, systemd, cron,
+certificados) en un solo `.tar.gz`:
+
+```bash
+ln -sf /var/www/danielmateu.es/deploy/backup-completo.sh /usr/local/bin/backup-completo
+backup-completo
+```
+
+Verifica cada volcado, guarda las 3 ultimas en `/var/backups/completo/` e imprime
+el comando para bajarla desde Windows (PowerShell):
+
+```powershell
+mkdir D:\backups_portfolio -Force > $null; scp Portfolio:/var/backups/completo/portfolio-completo-FECHA.tar.gz D:\backups_portfolio\
+```
+
+Dentro va un `LEEME.txt` con los pasos para restaurar un proyecto o el servidor entero.
+
 ---
 
 ## Actualizar el sitio
