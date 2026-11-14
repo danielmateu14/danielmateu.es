@@ -19,7 +19,7 @@ EnvironmentFile=/var/www/danielmateu.es/.env
 ExecStart=/var/www/danielmateu.es/venv/bin/gunicorn \
     --config /var/www/danielmateu.es/gunicorn_config.py \
     --bind 127.0.0.1:8000 \
-    --workers 3 \
+    --workers 2 \
     --threads 2 \
     portfolio.wsgi:application
 
