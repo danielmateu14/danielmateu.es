@@ -13,6 +13,12 @@ class Proyecto(models.Model):
     imagen = models.ImageField(upload_to='proyectos/', blank=True, null=True)
     url_github = models.URLField(blank=True, null=True)
     url_demo = models.URLField(blank=True, null=True)
+    # Segunda demo (el panel de gestión): si está, el botón «Demo» se convierte en un desplegable con las dos
+    url_demo_panel = models.URLField('Demo del panel', blank=True, null=True,
+                                     help_text='Con esto, el botón Demo despliega dos opciones: la web y el panel.')
+    demo_label = models.CharField('Nombre de la demo principal', max_length=40, default='Web',
+                                  help_text='Primera opción del desplegable (p. ej. «Tienda»).')
+    demo_panel_label = models.CharField('Nombre de la demo del panel', max_length=40, default='Panel de gestión')
     tecnologias = models.ManyToManyField('Tecnologia', blank=True)
     orden = models.PositiveIntegerField(
         default=0,

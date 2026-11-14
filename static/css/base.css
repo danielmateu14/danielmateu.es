@@ -789,3 +789,9 @@ html {
         transition: none;
     }
 }
+
+/* Botón «Demo» con desplegable (web / panel de gestión) */
+.demo-dropdown .dropdown-menu { min-width: 12rem; padding: .35rem; border: 1px solid var(--border-color); background: var(--surface-elevated); box-shadow: 0 12px 30px rgba(0, 0, 0, .45); }
+.demo-dropdown .dropdown-item { border-radius: 8px; padding: .5rem .75rem; color: var(--text-color); font-weight: 500; }
+.demo-dropdown .dropdown-item:hover, .demo-dropdown .dropdown-item:focus { background: rgba(239, 68, 68, .14); color: #fff; }
+.demo-dropdown .dropdown-item i { color: var(--primary-color); width: 1.1rem; }

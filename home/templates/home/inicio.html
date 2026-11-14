@@ -215,10 +215,6 @@
 
 <!-- Proyectos Preview Section -->
 <section id="proyectos" class="proyectos-section">
-  <!-- .proyectos-scroll da el "recorrido" de scroll; .proyectos-pin se queda fijo -->
-  <div class="proyectos-scroll">
-    <div class="proyectos-pin">
-      <div class="proy-glow" aria-hidden="true"></div>
       <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center proy-header">
@@ -230,16 +226,11 @@
         </div>
         <div class="row proy-grid">
             {% for proyecto in proyectos_destacados %}
-            <div class="col-lg-4 mb-4 reveal-card" style="--i: {{ forloop.counter0 }};">
+            <div class="col-lg-4 mb-4">
                 <div class="project-card card h-100">
                     <div class="project-image">
                         {% if proyecto.imagen %}
                             <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" class="img-fluid">
-                            <div class="image-overlay">
-                                <a href="{% url 'proyectos:detalle_proyecto' proyecto.id %}" class="overlay-btn">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </div>
                         {% else %}
                             <div class="project-placeholder">
                                 <div class="placeholder-icon">
@@ -270,7 +261,17 @@
                             <a href="{% url 'proyectos:detalle_proyecto' proyecto.id %}" class="btn btn-primary">
                                 <i class="fas fa-info-circle me-1"></i>Ver Detalles
                             </a>
-                            {% if proyecto.url_demo %}
+                            {% if proyecto.url_demo and proyecto.url_demo_panel %}
+                            <div class="dropdown demo-dropdown">
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-external-link-alt me-1"></i>Demo
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
+                                    <li><a class="dropdown-item" href="{{ proyecto.url_demo }}" target="_blank"><i class="fas fa-globe me-2"></i>{{ proyecto.demo_label }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ proyecto.url_demo_panel }}" target="_blank"><i class="fas fa-sliders-h me-2"></i>{{ proyecto.demo_panel_label }}</a></li>
+                                </ul>
+                            </div>
+                            {% elif proyecto.url_demo %}
                             <a href="{{ proyecto.url_demo }}" target="_blank" class="btn btn-outline-secondary btn-sm">
                                 <i class="fas fa-external-link-alt me-1"></i>Demo
                             </a>
@@ -300,8 +301,7 @@
                 <i class="fas fa-folder me-2"></i>Ver todos los proyectos
             </a>
       </div>
-    </div>
-  </div>
+      </div>
 </section>
 
 <!-- Contacto Section -->
