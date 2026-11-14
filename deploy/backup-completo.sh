@@ -34,7 +34,7 @@ DISCO_PC='D:\backups_portfolio'
 SSH_HOST="Portfolio"   # alias de ~/.ssh/config en el PC (ver DEPLOY-HETZNER.md)
 
 # Datos de las apps fuera de /var/www (rutas DB_PATH, MEDIA_ROOT... de los .env)
-DATOS_APPS=(autopadel bicis ciclossarabia control marketing marketing-dev papeleria ready4padel restaurante scriptlab-javi tienda-bicis)
+DATOS_APPS=(autopadel ciclossarabia control marketing marketing-dev papeleria ready4padel restaurante scriptlab-javi tienda-bicis)
 
 fallo() { echo "COPIA FALLIDA: $*" >&2; exit 1; }
 
@@ -173,6 +173,8 @@ DATOS=()
 for app in "${DATOS_APPS[@]}"; do
     [[ -d "/var/lib/${app}" ]] && DATOS+=("var/lib/${app}")
 done
+# Proyectos retirados y archivados (p. ej. la demo bicis, 14/11/2026): que lleguen también al disco externo
+[[ -d /var/backups/archivo ]] && DATOS+=("var/backups/archivo")
 
 echo "Empaquetando (medio minuto aprox.)..."
 rc=0
