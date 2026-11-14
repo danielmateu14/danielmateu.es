@@ -34,7 +34,7 @@ DISCO_PC='D:\backups_portfolio'
 SSH_HOST="Portfolio"   # alias de ~/.ssh/config en el PC (ver DEPLOY-HETZNER.md)
 
 # Datos de las apps fuera de /var/www (rutas DB_PATH, MEDIA_ROOT... de los .env)
-DATOS_APPS=(bicis ciclossarabia marketing marketing-dev papeleria ready4padel restaurante)
+DATOS_APPS=(autopadel bicis ciclossarabia control marketing marketing-dev papeleria ready4padel restaurante scriptlab-javi tienda-bicis)
 
 fallo() { echo "COPIA FALLIDA: $*" >&2; exit 1; }
 
